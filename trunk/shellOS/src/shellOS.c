@@ -6,36 +6,33 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+     /*void sigproc(void);
+
+     void quitproc(void);*/
 
 
-/* the Ctrl-C signal handler */
-void catch_int(int sig_num)
-{
-    /* re-set the signal handler again to catch_int, for next time */
-    signal(SIGINT, catch_int);
-    printf("\nYou have pressed Ctrl-C\n");
+void sigproc(){
+	signal (SIGINT, sigproc);
+	printf("You have pressed CTRL-C \n");
+}
 
+void quitproc(){
+	printf("ctrl-\\ pressed to quit \n");
+	exit(0); /* normale status di uscita */
 }
 
 
+main(int argc, char *argv[]){
+
+	signal(SIGINT, sigproc);
+	signal(SIGQUIT, quitproc);
 
 
-
-
-
-
-
-int main(int argc, char *argv[]) {
 	char cmd[80];
 	int statval = 1;
 
 
-	/* set the INT (Ctrl-C) signal handler to 'catch_int' */
-	signal(SIGINT, catch_int);
-
-
-
-	//infinite loop
+          	//infinite loop
 
 	while (1) {
 		printf("baby:");
@@ -48,20 +45,29 @@ int main(int argc, char *argv[]) {
 		}
 
 
-		if (fork()==0) {
-			execlp(cmd, NULL, NULL);
-			fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
-			exit(1);
-		}
+          		//we are in the child
 
-		wait(&statval);
+          		int forkResult = fork();
 
-		if (WIFEXITED(statval)) {
-			if (WEXITSTATUS(statval))
-				fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
-		} else {
-			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
-		}
 
-	}
+          		if(forkResult == 0) {
+
+          			signal(SIGINT, sigproc);
+          			signal(SIGQUIT, quitproc);
+
+          			execlp(cmd, cmd, NULL);
+          			fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
+          			exit(1);
+          		}
+
+          		wait(&statval);
+
+          		if (WIFEXITED(statval)) {
+          			if (WEXITSTATUS(statval))
+          				fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
+          		} else {
+          			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+          		}
+
+          	}
 }
