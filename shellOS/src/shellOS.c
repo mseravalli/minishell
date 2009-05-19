@@ -11,12 +11,12 @@
      void quitproc(void);*/
 
 
-void sigproc(){
+void sigproc(int sig){
 	signal (SIGINT, sigproc);
 	printf("You have pressed CTRL-C \n");
 }
 
-void quitproc(){
+void quitproc(int sig){
 	printf("ctrl-\\ pressed to quit \n");
 	exit(0); /* normale status di uscita */
 }
@@ -45,29 +45,34 @@ main(int argc, char *argv[]){
 		}
 
 
-          		//we are in the child
-
-          		int forkResult = fork();
 
 
-          		if(forkResult == 0) {
+	int forkResult = fork();
 
-          			signal(SIGINT, sigproc);
-          			signal(SIGQUIT, quitproc);
+	//if we are in the child
+	if(forkResult == 0) {
 
-          			execlp(cmd, cmd, NULL);
-          			fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
-          			exit(1);
-          		}
+		signal(SIGINT, sigproc);
+		signal(SIGQUIT, quitproc);
 
-          		wait(&statval);
+		execlp(cmd, cmd, NULL);
+		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
+		exit(1);
+	}
 
-          		if (WIFEXITED(statval)) {
-          			if (WEXITSTATUS(statval))
-          				fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
-          		} else {
-          			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
-          		}
+	wait(&statval);
 
-          	}
+	if (WIFEXITED(statval)) {
+		if (WEXITSTATUS(statval))
+			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
+		} else {
+			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+		}
+
+	}
+
+
+
+	exit(0);
+
 }
