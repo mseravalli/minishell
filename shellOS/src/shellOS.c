@@ -6,10 +6,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-     /*void sigproc(void);
-
-     void quitproc(void);*/
-
+int childPid;
 
 void sigproc(int sig){
 	signal (SIGINT, sigproc);
@@ -26,6 +23,9 @@ main(int argc, char *argv[]){
 
 	signal(SIGINT, sigproc);
 	signal(SIGQUIT, quitproc);
+
+
+	int parentPid = getpid();
 
 
 	char cmd[80];
@@ -54,6 +54,8 @@ main(int argc, char *argv[]){
 
 		signal(SIGINT, sigproc);
 		signal(SIGQUIT, quitproc);
+
+		bg();
 
 		execlp(cmd, cmd, NULL);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
