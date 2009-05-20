@@ -78,10 +78,10 @@ int main(int argc, char *argv[]) {
 	int size = 0;
 
 
-
 	while (1) {
 		printf("marco@laptop:->");
 
+		//TODO bisogna cercare di utilizzare scanf invece di gets!!!
 		gets(cmd);
 		parseString(&cmd, values, &size);
 
