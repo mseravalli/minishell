@@ -6,75 +6,89 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-int childPid;
 
-void sigproc(int sig){
-	signal (SIGINT, sigproc);
-	printf("You have pressed CTRL-C \n");
+void catch_interrupt(int sig_num){
+    /*
+     *  re-set the signal handler again to catch_int, for next time
+     *  when Ctrl - C is pressed the shell should simply go to the next line
+     */
+	printf("\n");
+    signal(SIGINT, catch_interrupt);
 }
 
-void quitproc(int sig){
-	printf("ctrl-\\ pressed to quit \n");
-	exit(0); /* normale status di uscita */
+void catch_stop(int sig_num){
+    /*
+     *  re-set the signal handler again to catch_int, for next time
+     *  when Ctrl - Z is pressed the shell should simply go to the next line
+     */
+	printf("you're trying to stop something\n");
+    signal(SIGTSTP, catch_stop);
 }
 
+void run_foreground(char *cmd, char *argv[], int statval){
 
-main(int argc, char *argv[]){
-
-	signal(SIGINT, sigproc);
-	signal(SIGQUIT, quitproc);
-
-
-	int parentPid = getpid();
-
-
-	char cmd[80];
-	int statval = 1;
-
-
-          	//infinite loop
-
-	while (1) {
-		printf("baby:");
-
-		scanf ("%s",cmd);
-
-		if (strcmp("exit",cmd) == 0) {
-			printf("bye!!\n");
-			exit(0);
-		}
-
-
-
-
-	int forkResult = fork();
-
-	//if we are in the child
-	if(forkResult == 0) {
-
-		signal(SIGINT, sigproc);
-		signal(SIGQUIT, quitproc);
-
-		bg();
-
+	if (fork()==0) {
+		int procid = setsid();
+		printf("%d\n", procid);
 		execlp(cmd, cmd, NULL);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
 		exit(1);
 	}
-
 	wait(&statval);
-
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
 			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
 		} else {
 			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+	}
+
+}
+
+void run_background(char *cmd, char *argv[], int statval){
+
+	if (fork()==0) {
+		setsid();
+		execlp(cmd, cmd, NULL);
+		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
+		exit(1);
+	}
+
+	//the shell should not wait for the end of the process
+	//wait(&statval);
+
+	if (WIFEXITED(statval)) {
+		if (WEXITSTATUS(statval))
+			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
+	} else {
+		//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+	}
+
+}
+
+
+
+int main(int argc, char *argv[]) {
+
+	signal(SIGINT, catch_interrupt);
+	signal(SIGTSTP, catch_stop);
+
+	char cmd[128];
+	int statval = 1;
+	while (1) { 		/* loop forever */
+		printf("marco@laptop:->");
+
+		scanf ("%s",cmd);
+
+		if (strcmp("exit",cmd) == 0) {
+			printf("Bye!!\n");
+			exit(0);
 		}
+
+
+		run_background(cmd, argv, statval);
+
 
 	}
 
-
-
 	exit(0);
-
 }
