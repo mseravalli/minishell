@@ -44,12 +44,12 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 
 }
 
-void run_background(char *cmd, char *argv[], int statval){
+void run_background(char *cmd[], char *argv[], int statval){
 
 	if (fork()==0) {
 		setsid();
-		execlp(cmd, cmd, NULL);
-		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
+		execvp(cmd[0], cmd);
+		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
 
@@ -91,8 +91,11 @@ int main(int argc, char *argv[]) {
 		}
 
 		if(*values[size-1] == '&'){
+
+			values[size-1] = NULL;
+
 			printf("process launched in background\n");
-			run_background(values[0], argv, statval);
+			run_background(values, argv, statval);
 		}
 		else{
 			printf("process launched in foreground\n");
