@@ -28,8 +28,6 @@ void catch_stop(int sig_num){
 
 void run_foreground(char *cmd[], char *argv[], int statval){
 
-	printf("%s\n", cmd[0]);
-
 	if (fork()==0) {
 
 		execvp(cmd[0], cmd);
