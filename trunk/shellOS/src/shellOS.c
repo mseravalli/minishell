@@ -73,18 +73,16 @@ int main(int argc, char *argv[]) {
 	signal(SIGTSTP, catch_stop);
 
 	int statval = 1;
-	char cmd[128];
-	char *values[64];
+	char cmd[MAX_LENGTH];
+	char *values[MAX_LENGTH/2];
 	int size = 0;
 
 
 	while (1) {
 		printf("marco@laptop:->");
 
-		//TODO bisogna cercare di utilizzare scanf invece di gets!!!
-		gets(cmd);
+		fgets(cmd,128, stdin);
 		parseString(&cmd, values, &size);
-
 
 
 		if (strcmp("exit",cmd) == 0) {
