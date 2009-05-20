@@ -5,7 +5,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
-//#include "header.h"
+#include "header.h"
 
 
 void catch_interrupt(int sig_num){
@@ -26,11 +26,12 @@ void catch_stop(int sig_num){
     signal(SIGTSTP, catch_stop);
 }
 
-void run_foreground(char *cmd, char *argv[], int statval){
+void run_foreground(char *cmd[], char *argv[], int statval){
+
+	printf("%s\n", cmd[0]);
 
 	if (fork()==0) {
-		int procid = setsid();
-		printf("%d\n", procid);
+
 		execlp(cmd, cmd, NULL);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
 		exit(1);
@@ -40,7 +41,7 @@ void run_foreground(char *cmd, char *argv[], int statval){
 		if (WEXITSTATUS(statval))
 			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
 		} else {
-			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+			//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
 	}
 
 }
@@ -70,36 +71,57 @@ void run_background(char *cmd, char *argv[], int statval){
 
 int main(int argc, char *argv[]) {
 
-	char CmdBuf[] = "ls -l";
-
-	char *values[64];
-
-	parseString(&CmdBuf);
-
-
-
-
-
 	signal(SIGINT, catch_interrupt);
 	signal(SIGTSTP, catch_stop);
 
-	char cmd[128];
 	int statval = 1;
-	while (1) { 		/* loop forever */
+	char cmd[128];
+	char *values[64];
+	int size = 0;
+
+	scanf ("%s",cmd);
+	printf("%s\n", cmd);
+
+
+/*
+	while (1) {
 		printf("marco@laptop:->");
 
 		scanf ("%s",cmd);
+		printf("%s\n", cmd);
+		parseString(&cmd, values, &size);
+
+
+
+
+		int i;
+		for (i = 0; i<size; i++){
+			printf("%s\n", values[i]);
+		}
+
+
+
+
+
+
+
+
+
 
 		if (strcmp("exit",cmd) == 0) {
 			printf("Bye!!\n");
 			exit(0);
 		}
 
-
-		run_background(cmd, argv, statval);
-
-
-	}
+		if(*values[size-1] == '&'){
+			printf("process launched in background\n");
+			run_background(values[0], argv, statval);
+		}
+		else{
+			printf("process launched in foreground\n");
+			run_foreground(values[0], argv, statval);
+		}
+	}*/
 
 	exit(0);
 }

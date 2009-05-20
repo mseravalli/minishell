@@ -11,4 +11,4 @@
 
 #endif /* HEADER_H_ */
 
-char* parseString();
+void parseString();
