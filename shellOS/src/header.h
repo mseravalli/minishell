@@ -13,3 +13,5 @@
 #endif /* HEADER_H_ */
 
 void parseString();
+void run_background();
+void run_foreground();
