@@ -7,6 +7,7 @@
 
 #ifndef HEADER_H_
 #define HEADER_H_
+#define MAX_LENGTH 1024
 
 
 #endif /* HEADER_H_ */
