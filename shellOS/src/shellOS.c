@@ -5,6 +5,7 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+//#include "header.h"
 
 
 void catch_interrupt(int sig_num){
@@ -68,6 +69,16 @@ void run_background(char *cmd, char *argv[], int statval){
 
 
 int main(int argc, char *argv[]) {
+
+	char CmdBuf[] = "ls -l";
+
+	char *values[64];
+
+	parseString(&CmdBuf);
+
+
+
+
 
 	signal(SIGINT, catch_interrupt);
 	signal(SIGTSTP, catch_stop);
