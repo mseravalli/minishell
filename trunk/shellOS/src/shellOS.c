@@ -32,8 +32,8 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 
 	if (fork()==0) {
 
-		execlp(cmd, cmd, NULL);
-		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd, strerror(errno));
+		execvp(cmd[0], cmd);
+		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
 	wait(&statval);
@@ -79,32 +79,13 @@ int main(int argc, char *argv[]) {
 	char *values[64];
 	int size = 0;
 
-	scanf ("%s",cmd);
-	printf("%s\n", cmd);
 
 
-/*
 	while (1) {
 		printf("marco@laptop:->");
 
-		scanf ("%s",cmd);
-		printf("%s\n", cmd);
+		gets(cmd);
 		parseString(&cmd, values, &size);
-
-
-
-
-		int i;
-		for (i = 0; i<size; i++){
-			printf("%s\n", values[i]);
-		}
-
-
-
-
-
-
-
 
 
 
@@ -119,9 +100,9 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			printf("process launched in foreground\n");
-			run_foreground(values[0], argv, statval);
+			run_foreground(values, argv, statval);
 		}
-	}*/
+	}
 
 	exit(0);
 }
