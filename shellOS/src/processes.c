@@ -9,7 +9,8 @@
 void run_foreground(char *cmd[], char *argv[], int statval){
 
 	if (fork()==0) {
-
+		printf("%d\n", getpid());
+		fflush(stdout);
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
@@ -28,6 +29,8 @@ void run_background(char *cmd[], char *argv[], int statval){
 
 	if (fork()==0) {
 		setsid();
+		printf("%d\n", getpid());
+		fflush(stdout);
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
@@ -42,5 +45,15 @@ void run_background(char *cmd[], char *argv[], int statval){
 	} else {
 		//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
 	}
+
+}
+
+
+void kill_background(int pid){
+
+	printf("%d\n",pid);
+	fflush(stdout);
+
+	kill(pid, SIGKILL);
 
 }

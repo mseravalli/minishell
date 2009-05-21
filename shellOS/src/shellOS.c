@@ -48,18 +48,21 @@ int main(int argc, char *argv[]) {
 
 		parseString(&cmd, values, &size);
 
-		if (strcmp("\n",cmd) == 0) {
+		if (strcmp("\n",values[0]) == 0) {
 			continue;
 		}
 
 
-
-
-
-		if (strcmp("exit",cmd) == 0) {
+		if (strcmp("exit",values[0]) == 0) {
 			printf("Bye!!\n");
 			exit(0);
 		}
+
+		if (strcmp("kill",values[0]) == 0) {
+			kill_background(atoi(values[1]));
+			continue;
+		}
+
 
 		if(*values[size-1] == '&'){
 

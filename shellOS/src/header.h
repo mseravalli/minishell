@@ -15,3 +15,4 @@
 void parseString();
 void run_background();
 void run_foreground();
+void kill_background();
