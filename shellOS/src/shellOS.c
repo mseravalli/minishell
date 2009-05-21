@@ -34,6 +34,11 @@ int main(int argc, char *argv[]) {
 	signal(SIGINT, catch_interrupt);
 	signal(SIGTSTP, catch_stop);
 
+	struct backgrNode *backgrdList;
+
+	backgrdList = malloc(sizeof(struct backgrNode));
+	backgrdList->pid = 100;
+
 	int statval = 1;
 	char cmd[MAX_LENGTH];
 	char *values[MAX_LENGTH/2];
@@ -73,7 +78,7 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			printf("process launched in foreground\n");
-			run_foreground(values, argv, statval);
+			run_foreground(values, argv, statval, backgrdList);
 		}
 	}
 
