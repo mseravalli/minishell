@@ -13,7 +13,8 @@ void catch_interrupt(int sig_num){
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - C is pressed the shell should simply go to the next line
      */
-	printf("\n");
+	printf("\nmarco@laptop:->");
+	fflush(stdout);
     signal(SIGINT, catch_interrupt);
 }
 
@@ -40,10 +41,19 @@ int main(int argc, char *argv[]) {
 
 
 	while (1) {
-		printf("\nmarco@laptop:->");
+		printf("marco@laptop:->");
+		fflush(stdout);
 
 		fgets(cmd, MAX_LENGTH, stdin);
+
 		parseString(&cmd, values, &size);
+
+		if (strcmp("\n",cmd) == 0) {
+			continue;
+		}
+
+
+
 
 
 		if (strcmp("exit",cmd) == 0) {
