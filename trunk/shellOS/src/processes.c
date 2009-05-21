@@ -5,12 +5,47 @@
 #include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include "header.h"
 
-void run_foreground(char *cmd[], char *argv[], int statval){
+
+
+
+
+void addBackgrdProc(struct backgrNode *list, int procID){
+
+	struct backgrNode *tmpNode;
+	tmpNode = malloc(sizeof(struct backgrNode));
+
+	tmpNode->pid = procID;
+
+	if(list != NULL)
+		list->next = tmpNode;
+	else
+		list = tmpNode;
+
+}
+
+void printList(struct backgrNode *list){
+
+	while(list != NULL){
+
+		printf("%d\n", list->pid);
+		list = list->next;
+
+	}
+
+
+}
+
+
+void run_foreground(char *cmd[], char *argv[], int statval, struct backgrNode *list){
 
 	if (fork()==0) {
-		printf("%d\n", getpid());
-		fflush(stdout);
+
+		addBackgrdProc(list, getpid());
+
+		printList(list);
+
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
@@ -57,3 +92,4 @@ void kill_background(int pid){
 	kill(pid, SIGKILL);
 
 }
+
