@@ -12,10 +12,11 @@ void catch_interrupt(int sig_num){
     /*
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - C is pressed the shell should simply go to the next line
-     */
+     */#include "header.h"
 	printf("\nmarco@laptop:->");
 	fflush(stdout);
-    signal(SIGINT, catch_interrupt);
+
+    //signal(SIGINT, catch_interrupt);
 }
 
 void catch_stop(int sig_num){
@@ -23,16 +24,24 @@ void catch_stop(int sig_num){
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - Z is pressed the shell should simply go to the next line
      */
-	printf("you're trying to stop something\n");
+	printf("\nmarco@laptop:->");
+	fflush(stdout);
     signal(SIGTSTP, catch_stop);
 }
 
+void catch_chld(int sig_num){
+
+}
 
 
 int main(int argc, char *argv[]) {
 
-	signal(SIGINT, catch_interrupt);
-	signal(SIGTSTP, catch_stop);
+	signal(SIGINT, &catch_interrupt);
+	signal(SIGTSTP, &catch_stop);
+	signal(SIGCHLD, &catch_chld);
+	signal(SIGTTOU, SIG_IGN);
+	signal(SIGTTIN, SIG_IGN);
+
 
 	struct backgrNode *backgrdList;
 

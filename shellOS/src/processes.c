@@ -7,10 +7,6 @@
 #include <unistd.h>
 #include "header.h"
 
-
-
-
-
 void addBackgrdProc(struct backgrNode *list, int procID){
 
 	struct backgrNode *tmpNode;
@@ -39,9 +35,8 @@ void printList(struct backgrNode *list){
 
 
 void run_foreground(char *cmd[], char *argv[], int statval, struct backgrNode *list){
-
-	if (fork()==0) {
-
+	pid_t childpid = fork();
+	if (childpid ==0) {
 		addBackgrdProc(list, getpid());
 
 		printList(list);
@@ -50,7 +45,16 @@ void run_foreground(char *cmd[], char *argv[], int statval, struct backgrNode *l
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
-	wait(&statval);
+	setpgid(childpid,childpid);
+
+	//tcsetpgrp(STDIN_FILENO,childpid);
+
+	while(waitpid(childpid, &statval,WNOHANG | WUNTRACED) == 0){
+		usleep(20000);
+	}
+
+	//tcsetpgrp(STDIN_FILENO,getpid());
+
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
 			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
@@ -61,25 +65,16 @@ void run_foreground(char *cmd[], char *argv[], int statval, struct backgrNode *l
 }
 
 void run_background(char *cmd[], char *argv[], int statval){
-
-	if (fork()==0) {
-		setsid();
+	pid_t childpid = fork();
+	if (childpid==0) {
 		printf("%d\n", getpid());
 		fflush(stdout);
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
-
-	//the shell should not wait for the end of the process
-	//wait(&statval);
-
-	if (WIFEXITED(statval)) {
-		if (WEXITSTATUS(statval))
-			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
-	} else {
-		//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
-	}
+	setpgid(childpid,childpid);
+	tcsetpgrp(STDIN_FILENO,getpid());
 
 }
 
