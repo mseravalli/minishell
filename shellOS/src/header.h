@@ -22,7 +22,7 @@ struct backgrNode{
 };
 
 
-struct backgrNode bckgrdList[MAX_LENGTH/2];
+struct backgrNode *bckgrdList;
 
 
 void parseString();

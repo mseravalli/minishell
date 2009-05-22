@@ -47,10 +47,11 @@ int main(int argc, char *argv[]) {
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
+	/*
 	int i;
 	for (i = 0; i < MAX_LENGTH/2; i++){
 		bckgrdList[i].pid = 0;
-	}
+	}*/
 
 
 	addToList(getpid(), "main program");
