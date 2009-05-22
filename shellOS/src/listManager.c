@@ -3,17 +3,14 @@
 #include "header.h"
 
 
-void addToList(struct backgrNode **list){
+void addToList(struct backgrNode **list, int procID, char *cmd){
 
 	struct backgrNode *tmpNode;
 	tmpNode = malloc(sizeof(struct backgrNode));
 
-	tmpNode->pid = 666;
+	tmpNode->pid = procID;
+	tmpNode->usedCommand = cmd;
 	tmpNode->next = *list;
-
-	//printf("interno %d", (*list)->pid);
-
-
 
 	*list = tmpNode;
 
@@ -25,7 +22,7 @@ void printList(struct backgrNode **list){
 	tmpNode = *list;
 	while(tmpNode != NULL){
 
-		printf("interno %d\n", tmpNode->pid);
+		printf("%d - %s\n", tmpNode->pid, tmpNode->usedCommand);
 		tmpNode = tmpNode->next;
 
 	}

@@ -16,10 +16,13 @@
 struct backgrNode{
 
 	int pid;
+	char *usedCommand;
 	struct backgrdNode* next;
 
 };
 
+
+struct backgrNode *bckgrdList;
 
 
 void parseString();
