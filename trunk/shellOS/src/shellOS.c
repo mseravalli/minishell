@@ -61,6 +61,9 @@ int main(int argc, char *argv[]) {
 		fgets(cmd, MAX_LENGTH, stdin);
 
 		if ('\n' == cmd[0]) {
+			printf("this is the list\n");
+			printList(&bckgrdList);
+			fflush(stdout);
 			continue;
 		}
 
