@@ -7,40 +7,10 @@
 #include <unistd.h>
 #include "header.h"
 
-void addBackgrdProc(struct backgrNode *list, int procID){
 
-	struct backgrNode *tmpNode;
-	tmpNode = malloc(sizeof(struct backgrNode));
-
-	tmpNode->pid = procID;
-
-	if(list != NULL)
-		list->next = tmpNode;
-	else
-		list = tmpNode;
-
-}
-
-void printList(struct backgrNode *list){
-
-	while(list != NULL){
-
-		printf("%d\n", list->pid);
-		list = list->next;
-
-	}
-
-
-}
-
-
-void run_foreground(char *cmd[], char *argv[], int statval, struct backgrNode *list){
+void run_foreground(char *cmd[], char *argv[], int statval){
 	pid_t childpid = fork();
 	if (childpid ==0) {
-		addBackgrdProc(list, getpid());
-
-		printList(list);
-
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);

@@ -18,7 +18,7 @@ struct backgrNode{
 	int pid;
 	struct backgrdNode* next;
 
-}backgrNode;
+};
 
 
 
@@ -26,4 +26,5 @@ void parseString();
 void run_background();
 void run_foreground();
 void kill_background();
+void addToList();
 void printList();
