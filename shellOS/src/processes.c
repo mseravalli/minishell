@@ -12,6 +12,8 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 	pid_t childpid = fork();
 	if (childpid ==0) {
 
+		printf("%d - %s\n", getpid(), cmd[0]);
+
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
@@ -41,8 +43,12 @@ void run_background(char *cmd[], char *argv[], int statval){
 
 		addToList(getpid(), cmd[0]);
 		printList();
-
 		fflush(stdout);
+
+		int i;
+		for (i=getdtablesize();i>=0;--i)
+			close(i);
+
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
