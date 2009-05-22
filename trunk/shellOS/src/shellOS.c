@@ -42,17 +42,20 @@ int main(int argc, char *argv[]) {
 	signal(SIGTTOU, SIG_IGN);
 	signal(SIGTTIN, SIG_IGN);
 
-
-	struct backgrNode *backgrdList;
-	backgrdList = malloc(sizeof(struct backgrNode));
-	backgrdList->pid = 100;
-
-	backgrdList = NULL;
-
 	int statval = 1;
 	char cmd[MAX_LENGTH];
 	char *values[MAX_LENGTH/2];
 	int size = 0;
+
+	int i;
+	for (i = 0; i < MAX_LENGTH/2; i++){
+		bckgrdList[i].pid = 0;
+	}
+
+
+	addToList(getpid(), "ciao");
+	void printList();
+
 
 	while (1) {
 		printf("marco@laptop:->");
@@ -61,22 +64,29 @@ int main(int argc, char *argv[]) {
 		fgets(cmd, MAX_LENGTH, stdin);
 
 		if ('\n' == cmd[0]) {
-			printf("this is the list\n");
-			printList(&bckgrdList);
-			fflush(stdout);
 			continue;
 		}
 
 
 		parseString(&cmd, values, &size);
 
+
 		if (strcmp("exit",values[0]) == 0) {
 			printf("Bye!!\n");
 			exit(0);
 		}
 
+
 		if (strcmp("kill",values[0]) == 0) {
 			kill_background(atoi(values[1]));
+			continue;
+		}
+
+
+		if (strcmp("jobs",values[0]) == 0) {
+			printf("this is the list\n");
+			printList();
+			fflush(stdout);
 			continue;
 		}
 

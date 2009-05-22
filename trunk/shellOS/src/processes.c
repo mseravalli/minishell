@@ -12,10 +12,6 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 	pid_t childpid = fork();
 	if (childpid ==0) {
 
-
-		addToList(&bckgrdList, getpid(), cmd[0]);
-
-
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
@@ -42,7 +38,9 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 void run_background(char *cmd[], char *argv[], int statval){
 	pid_t childpid = fork();
 	if (childpid==0) {
-		printf("%d\n", getpid());
+
+		addToList(getpid(), cmd[0]);
+
 		fflush(stdout);
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));

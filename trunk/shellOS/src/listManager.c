@@ -3,28 +3,51 @@
 #include "header.h"
 
 
-void addToList(struct backgrNode **list, int procID, char *cmd){
+void addToList(int procID, char *cmd){
 
+	int i;
+	for (i = 0; i < MAX_LENGTH/2; i++){
+		if(bckgrdList[i].pid == 0){
+			bckgrdList[i].pid = procID;
+			bckgrdList[i].usedCommand = cmd;
+			break;
+		}
+	}
+
+	printList();
+
+	/*
 	struct backgrNode *tmpNode;
 	tmpNode = malloc(sizeof(struct backgrNode));
 
 	tmpNode->pid = procID;
 	tmpNode->usedCommand = cmd;
-	tmpNode->next = *list;
+	tmpNode->next = bckgrdList;
 
-	*list = tmpNode;
+	bckgrdList = tmpNode;
 
+	printList();
+	*/
 
 }
-void printList(struct backgrNode **list){
+void printList(){
 
+	int i;
+	for (i = 0; i < MAX_LENGTH/2; i++){
+		if(bckgrdList[i].pid != 0)
+			printf("%d - %s\n", bckgrdList[i].pid, bckgrdList[i].usedCommand);
+	}
+
+
+	/*
 	struct backgrNode *tmpNode;
-	tmpNode = *list;
+	tmpNode = bckgrdList;
 	while(tmpNode != NULL){
 
 		printf("%d - %s\n", tmpNode->pid, tmpNode->usedCommand);
 		tmpNode = tmpNode->next;
 
 	}
+	*/
 
 }
