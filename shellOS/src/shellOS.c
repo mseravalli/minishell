@@ -16,7 +16,7 @@ void catch_interrupt(int sig_num){
 	printf("\nmarco@laptop:->");
 	fflush(stdout);
 
-    //signal(SIGINT, catch_interrupt);
+	signal(SIGINT, catch_interrupt);
 }
 
 void catch_stop(int sig_num){
@@ -54,13 +54,6 @@ int main(int argc, char *argv[]) {
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
-	addToList(&backgrdList);
-
-	printList(&backgrdList);
-
-
-
-/*
 	while (1) {
 		printf("marco@laptop:->");
 		fflush(stdout);
@@ -99,5 +92,5 @@ int main(int argc, char *argv[]) {
 	}
 
 	exit(0);
-	*/
+
 }
