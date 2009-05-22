@@ -44,28 +44,35 @@ int main(int argc, char *argv[]) {
 
 
 	struct backgrNode *backgrdList;
-
 	backgrdList = malloc(sizeof(struct backgrNode));
 	backgrdList->pid = 100;
+
+	backgrdList = NULL;
 
 	int statval = 1;
 	char cmd[MAX_LENGTH];
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
+	addToList(&backgrdList);
 
+	printList(&backgrdList);
+
+
+
+/*
 	while (1) {
 		printf("marco@laptop:->");
 		fflush(stdout);
 
 		fgets(cmd, MAX_LENGTH, stdin);
 
-		parseString(&cmd, values, &size);
-
-		if (strcmp("\n",values[0]) == 0) {
+		if ('\n' == cmd[0]) {
 			continue;
 		}
 
+
+		parseString(&cmd, values, &size);
 
 		if (strcmp("exit",values[0]) == 0) {
 			printf("Bye!!\n");
@@ -87,9 +94,10 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			printf("process launched in foreground\n");
-			run_foreground(values, argv, statval, backgrdList);
+			run_foreground(values, argv, statval);
 		}
 	}
 
 	exit(0);
+	*/
 }
