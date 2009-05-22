@@ -40,6 +40,7 @@ void run_background(char *cmd[], char *argv[], int statval){
 	if (childpid==0) {
 
 		addToList(getpid(), cmd[0]);
+		printList();
 
 		fflush(stdout);
 		execvp(cmd[0], cmd);

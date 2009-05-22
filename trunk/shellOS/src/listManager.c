@@ -4,7 +4,7 @@
 
 
 void addToList(int procID, char *cmd){
-
+/*
 	int i;
 	for (i = 0; i < MAX_LENGTH/2; i++){
 		if(bckgrdList[i].pid == 0){
@@ -14,9 +14,8 @@ void addToList(int procID, char *cmd){
 		}
 	}
 
-	printList();
 
-	/*
+	*/
 	struct backgrNode *tmpNode;
 	tmpNode = malloc(sizeof(struct backgrNode));
 
@@ -26,12 +25,10 @@ void addToList(int procID, char *cmd){
 
 	bckgrdList = tmpNode;
 
-	printList();
-	*/
 
 }
 void printList(){
-
+/*
 	int i;
 	for (i = 0; i < MAX_LENGTH/2; i++){
 		if(bckgrdList[i].pid != 0)
@@ -39,7 +36,7 @@ void printList(){
 	}
 
 
-	/*
+	*/
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
 	while(tmpNode != NULL){
@@ -48,6 +45,6 @@ void printList(){
 		tmpNode = tmpNode->next;
 
 	}
-	*/
+
 
 }
