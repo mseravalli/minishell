@@ -53,9 +53,7 @@ int main(int argc, char *argv[]) {
 	}
 
 
-	addToList(getpid(), "ciao");
-	void printList();
-
+	addToList(getpid(), "main program");
 
 	while (1) {
 		printf("marco@laptop:->");
