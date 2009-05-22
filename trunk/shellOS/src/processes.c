@@ -18,13 +18,13 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 	}
 	setpgid(childpid,childpid);
 
-	//tcsetpgrp(STDIN_FILENO,childpid);
+	tcsetpgrp(STDIN_FILENO,childpid);
 
 	while(waitpid(childpid, &statval,WNOHANG | WUNTRACED) == 0){
 		usleep(20000);
 	}
 
-	//tcsetpgrp(STDIN_FILENO,getpid());
+	tcsetpgrp(STDIN_FILENO,getpid());
 
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
@@ -53,12 +53,31 @@ void run_background(char *cmd[], char *argv[], int statval){
 }
 
 
+void put_into_foreground(int pid,int statval){
+	printf("\n %d \n",pid);
+	setpgid(pid,pid);
+	tcsetpgrp(STDIN_FILENO,pid);
+
+	while(waitpid(pid, &statval,WNOHANG | WUNTRACED) == 0){
+		usleep(20000);
+	}
+	tcsetpgrp(STDIN_FILENO,getpid());
+}
+
+/*need the pid of the current process
+void put_into_background(){
+	setpgid(getpid(),getpid());
+	tcsetpgrp(STDIN_FILENO,getpid());
+}*/
+
+
 void kill_background(int pid){
 
 	printf("%d\n",pid);
 	fflush(stdout);
 
 	kill(pid, SIGKILL);
-
 }
+
+
 

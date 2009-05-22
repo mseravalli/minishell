@@ -81,6 +81,17 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
+		if(strcmp("fg",values[0]) == 0){
+			printf("putting in foreground %d", atoi(values[1]));
+			put_into_foreground(atoi(values[1]),statval);
+			continue;
+		}
+
+		/*if(strcmp("bg",values[0]) == 0){
+			printf("back to shell");
+			tcsetpgrp(STDIN_FILENO,getpid());
+		}*/
+
 
 		if (strcmp("jobs",values[0]) == 0) {
 			printf("this is the list\n");
