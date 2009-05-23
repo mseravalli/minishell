@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
 	signal(SIGTTIN, SIG_IGN);
 
 	int statval = 1;
+	int statval2 = 1;
 	char cmd[MAX_LENGTH];
 	char *values[MAX_LENGTH/2];
 	int size = 0;
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
 
 		if(strcmp("fg",values[0]) == 0){
 			printf("putting in foreground %d", atoi(values[1]));
-			put_into_foreground(atoi(values[1]),statval);
+			put_into_foreground(atoi(values[1]),statval2);
 			continue;
 		}
 
