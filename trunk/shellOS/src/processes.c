@@ -39,11 +39,15 @@ void run_foreground(char *cmd[], char *argv[], int statval){
 
 void run_background(char *cmd[], char *argv[], int statval){
 	pid_t childpid = fork();
-	if (childpid==0) {
 
-		addToList(getpid(), cmd[0]);
+	if (childpid > 0){
+		addToList(childpid, cmd[0]);
 		printList();
 		fflush(stdout);
+	}
+
+
+	if (childpid==0) {
 
 		int i;
 		for (i=getdtablesize();i>=0;--i)
