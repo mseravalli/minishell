@@ -8,6 +8,8 @@
 #include "header.h"
 
 
+
+
 void catch_interrupt(int sig_num){
     /*
      *  re-set the signal handler again to catch_int, for next time
@@ -47,16 +49,17 @@ int main(int argc, char *argv[]) {
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
-	/*
 	int i;
-	for (i = 0; i < MAX_LENGTH/2; i++){
+	for(i = 0; i < MAX_LENGTH/2; i++){
 		bckgrdList[i].pid = 0;
-	}*/
+	}
 
 
 	addToList(getpid(), "main program");
 
 	while (1) {
+
+
 		printf("marco@laptop:->");
 		fflush(stdout);
 
