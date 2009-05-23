@@ -15,10 +15,7 @@ void addToList(int procID, char cmd[]){
 
 	char value[MAX_LENGTH];
 
-	value[0] = 256 % (i+140);
-	value[1] = '\0';
-
-	//strcpy( value, cmd );
+	strcpy( value, cmd );
 
 	printf("inserting at the %dth position\n", i);
 	bckgrdList[i].pid = procID;
