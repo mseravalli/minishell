@@ -15,7 +15,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
-			stdout = fopen(destination, "w");
+			stdout = fopen(destination, "a");
 		}
 
 		printf("%d - %s\n", getpid(), cmd[0]);
