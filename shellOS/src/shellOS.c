@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
 			values[size-1] = NULL;
 
 			printf("process launched in background\n");
-			run_background(values, argv, statval);
+			run_background(values, argv, statval, destination);
 		}
 		else{
 			printf("process launched in foreground\n");
