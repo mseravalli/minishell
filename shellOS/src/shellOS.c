@@ -14,7 +14,7 @@ void catch_interrupt(int sig_num){
     /*
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - C is pressed the shell should simply go to the next line
-     */#include "header.h"
+     */
 	printf("\nmarco@laptop:->");
 	fflush(stdout);
 
@@ -50,6 +50,10 @@ int main(int argc, char *argv[]) {
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
+	FILE *shellOut = freopen("/dev/tty", "w",stdout);
+
+	char destination[] = "/dev/tty";
+
 	int i;
 	for(i = 0; i < MAX_LENGTH/2; i++){
 		bckgrdList[i].pid = 0;
@@ -62,7 +66,8 @@ int main(int argc, char *argv[]) {
 
 
 		printf("marco@laptop:->");
-		fflush(stdout);
+		fflush(shellOut);
+
 
 		fgets(cmd, MAX_LENGTH, stdin);
 
@@ -74,7 +79,7 @@ int main(int argc, char *argv[]) {
 		parseString(&cmd, values, &size);
 
 
-		if (strcmp("exit",values[0]) == 0) {
+		if (strcmp("exit",values[0]) == 0 || strcmp("quit",values[0]) == 0) {
 			printf("Bye!!\n");
 			exit(0);
 		}
@@ -91,16 +96,25 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-		/*if(strcmp("bg",values[0]) == 0){
-			printf("back to shell");
-			tcsetpgrp(STDIN_FILENO,getpid());
-		}*/
-
-
 		if (strcmp("jobs",values[0]) == 0) {
 			printf("this is the list\n");
 			printList();
 			fflush(stdout);
+			continue;
+		}
+
+		if (strcmp("out",values[0]) == 0) {
+			if(values[1] != NULL){
+				strcpy(destination, values[1]);
+				printf("output redirect to %s\n", values[1]);
+			}
+			continue;
+		}
+
+
+		if (strcmp("restoreout",values[0]) == 0) {
+			printf("restoring stdout\n");
+			strcpy(destination, "\/dev\/tty");
 			continue;
 		}
 
@@ -114,7 +128,8 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 			printf("process launched in foreground\n");
-			run_foreground(values, argv, statval);
+
+			run_foreground(values, argv, statval, destination);
 		}
 	}
 

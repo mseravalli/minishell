@@ -1,8 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "header.h"
 
 void parseString(char *CmdBuf, char *argv[], int *size){
+
+	//argv is cleaned
+	int i;
+	for(i = 0; i<MAX_LENGTH/2; i++)
+		argv[i] = NULL;
 
 	char *element;
 

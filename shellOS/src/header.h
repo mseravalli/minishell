@@ -32,3 +32,4 @@ void put_into_foreground();
 void kill_background();
 void addToList();
 void printList();
+void redirectOut();
