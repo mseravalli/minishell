@@ -14,7 +14,6 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	if (childpid ==0) {
 
 		if (strcmp("/dev/tty",destination) != 0){
-			printf("the output is redirect to %s\n", destination);
 			fclose (stdout);
 			stdout = fopen(destination, "w");
 		}
