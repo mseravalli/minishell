@@ -44,7 +44,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 }
 
-void run_background(char *cmd[], char *argv[], int statval){
+void run_background(char *cmd[], char *argv[], int statval, char *destination){
 	pid_t childpid = fork();
 
 	if (childpid > 0){
@@ -55,6 +55,11 @@ void run_background(char *cmd[], char *argv[], int statval){
 
 
 	if (childpid==0) {
+
+		if (strcmp("/dev/tty",destination) != 0){
+			fclose (stdout);
+			stdout = fopen(destination, "a");
+		}
 
 		int i;
 		for (i=getdtablesize();i>=0;--i)
