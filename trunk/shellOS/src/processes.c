@@ -18,8 +18,8 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 			stdout = fopen(destination, "a");
 		}
 
-		printf("%d - %s\n", getpid(), cmd[0]);
-		fflush(stdout);
+		//printf("%d - %s\n", getpid(), cmd[0]);
+		//fflush(stdout);
 
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
