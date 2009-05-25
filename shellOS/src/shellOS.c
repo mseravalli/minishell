@@ -165,11 +165,11 @@ int main(int argc, char *argv[]) {
 
 			values[size-1] = NULL;
 
-			printf("process launched in background\n");
+			//printf("process launched in background\n");
 			run_background(values, argv, statval, redirectOutput);
 		}
 		else{
-			printf("process launched in foreground\n");
+			//printf("process launched in foreground\n");
 
 			run_foreground(values, argv, statval, redirectOutput);
 		}
