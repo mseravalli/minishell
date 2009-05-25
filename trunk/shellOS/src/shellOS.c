@@ -50,9 +50,12 @@ int main(int argc, char *argv[]) {
 	char *values[MAX_LENGTH/2];
 	int size = 0;
 
-	FILE *shellOut = freopen("/dev/tty", "w",stdout);
 
-	char destination[] = "/dev/tty";
+	char redirectOutput[] = "/dev/tty";
+	char redirectInput[] = "/dev/tty";
+	int readOffset = 0;
+	int readPosition = 0;
+
 
 	int i;
 	for(i = 0; i < MAX_LENGTH/2; i++){
@@ -66,10 +69,33 @@ int main(int argc, char *argv[]) {
 
 
 		printf("marco@laptop:->");
-		fflush(shellOut);
+		fflush(stdout);
 
 
-		fgets(cmd, MAX_LENGTH, stdin);
+		if (strcmp("/dev/tty",redirectInput) == 0){
+			fgets(cmd, MAX_LENGTH, stdin);
+		} else {
+			fclose(stdin);
+			stdin = fopen(redirectInput, "r");
+			fseek (stdin , readOffset , SEEK_SET );
+			fgets(cmd, MAX_LENGTH, stdin);
+
+			printf("%s", cmd);
+
+			readPosition++;
+			readOffset = readOffset + strlen(cmd);
+
+			//this part restores the input from the shell
+			if(readPosition > SEEK_END){
+				readPosition = 0;
+				readOffset = 0;
+				strcpy(redirectInput, "\/dev\/tty");
+				fclose(stdin);
+				stdin = fopen(redirectInput, "r");
+			}
+
+		}
+
 
 		if ('\n' == cmd[0]) {
 			continue;
@@ -103,9 +129,13 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
+		/*
+		 * redirection of output
+		 */
+
 		if (strcmp("out",values[0]) == 0) {
 			if(values[1] != NULL){
-				strcpy(destination, values[1]);
+				strcpy(redirectOutput, values[1]);
 				printf("output redirect to %s\n", values[1]);
 			}
 			continue;
@@ -114,7 +144,19 @@ int main(int argc, char *argv[]) {
 
 		if (strcmp("restoreout",values[0]) == 0) {
 			printf("restoring stdout\n");
-			strcpy(destination, "\/dev\/tty");
+			strcpy(redirectOutput, "\/dev\/tty");
+			continue;
+		}
+
+
+		/*
+		 * redirection of input
+		 */
+		if (strcmp("in",values[0]) == 0) {
+			if(values[1] != NULL){
+				strcpy(redirectInput, values[1]);
+				printf("input redirect to %s\n", values[1]);
+			}
 			continue;
 		}
 
@@ -124,12 +166,12 @@ int main(int argc, char *argv[]) {
 			values[size-1] = NULL;
 
 			printf("process launched in background\n");
-			run_background(values, argv, statval, destination);
+			run_background(values, argv, statval, redirectOutput);
 		}
 		else{
 			printf("process launched in foreground\n");
 
-			run_foreground(values, argv, statval, destination);
+			run_foreground(values, argv, statval, redirectOutput);
 		}
 	}
 
