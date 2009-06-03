@@ -42,11 +42,19 @@ void deleteFromList(int procID){
 	struct backgrNode *tmpNode;
 	tmpNode= malloc(sizeof(struct backgrNode));
 	tmpNode->next = bckgrdList;
-	while(tmpNode->next != NULL){
 
-		printf("%d - %s\n", tmpNode->pid, tmpNode->usedCommand);
-		tmpNode = tmpNode->next;
+	if(bckgrdList->pid == procID){
+		bckgrdList = bckgrdList->next;
+	}else{
+		while(tmpNode->next != NULL){
 
+			if(tmpNode->next->pid == procID){
+				tmpNode->next->pid = 0;
+				tmpNode->next = tmpNode->next->next;
+			}
+			tmpNode = tmpNode->next;
+
+		}
 	}
 
 }

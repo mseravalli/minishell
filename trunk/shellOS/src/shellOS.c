@@ -112,6 +112,8 @@ int main(int argc, char *argv[]) {
 
 
 		if (strcmp("kill",values[0]) == 0) {
+			if(values[1] == NULL)
+				continue;
 			kill_background(atoi(values[1]));
 			continue;
 		}
