@@ -6,7 +6,7 @@
 
 void addToList(int procID, char cmd[]){
 
-
+/*
 	int i = 0;
 	for(i = 0; i < MAX_LENGTH/2; i++){
 		if(bckgrdList[i].pid == 0)
@@ -16,30 +16,44 @@ void addToList(int procID, char cmd[]){
 	//printf("inserting at the %dth position\n", i);
 	bckgrdList[i].pid = procID;
 	strcpy( bckgrdList[i].usedCommand, cmd );
-
+*/
 
 	/*
 	char value[MAX_LENGTH];
 
 	strcpy( value, cmd );
 
-
+*/
 	struct backgrNode *tmpNode;
 	tmpNode = malloc(sizeof(struct backgrNode));
 
 	tmpNode->pid = procID;
-	tmpNode->usedCommand = value;
+	strcpy( tmpNode->usedCommand, cmd );
 	tmpNode->next = bckgrdList;
 
 	bckgrdList = tmpNode;
-	*/
 
 
 }
 
 
-void printList(){
+void deleteFromList(int procID){
 
+	struct backgrNode *tmpNode;
+	tmpNode= malloc(sizeof(struct backgrNode));
+	tmpNode->next = bckgrdList;
+	while(tmpNode->next != NULL){
+
+		printf("%d - %s\n", tmpNode->pid, tmpNode->usedCommand);
+		tmpNode = tmpNode->next;
+
+	}
+
+}
+
+
+void printList(){
+/*
 	int i = 0;
 	for(i = 0; i < MAX_LENGTH/2; i++){
 		if(bckgrdList[i].pid != 0)
@@ -47,7 +61,7 @@ void printList(){
 			fflush(stdout);
 	}
 
-	/*
+	*/
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
 	while(tmpNode != NULL){
@@ -56,7 +70,7 @@ void printList(){
 		tmpNode = tmpNode->next;
 
 	}
-	*/
+
 
 
 }

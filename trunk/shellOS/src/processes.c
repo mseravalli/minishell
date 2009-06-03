@@ -13,7 +13,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	pid_t childpid = fork();
 	if (childpid ==0) {
 
-		signal(SIGINT, SIG_DFL);
+		//signal(SIGINT, SIG_DFL);
 		//signal(SIGTSTP, SIG_DFL);
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
@@ -103,6 +103,7 @@ void kill_background(int pid){
 	fflush(stdout);
 
 	kill(pid, SIGKILL);
+	deleteFromList(pid);
 }
 
 

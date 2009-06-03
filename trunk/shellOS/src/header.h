@@ -17,12 +17,13 @@ struct backgrNode{
 
 	int pid;
 	char usedCommand[MAX_LENGTH];
-	struct backgrdNode* next;
+	struct backgrNode* next;
 
 };
 
 
-struct backgrNode bckgrdList[MAX_LENGTH/2];
+//struct backgrNode bckgrdList[MAX_LENGTH/2];
+struct backgrNode *bckgrdList;
 
 void catch_interrupt();
 void catch_stop();
@@ -36,6 +37,7 @@ void put_into_foreground();
 void kill_background();
 
 void addToList();
+void deleteFromList();
 void printList();
 
 void redirectOut();
