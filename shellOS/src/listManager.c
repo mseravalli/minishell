@@ -13,13 +13,9 @@ void addToList(int procID, char cmd[]){
 			break;
 	}
 
-	char value[MAX_LENGTH];
-
-	strcpy( value, cmd );
-
 	printf("inserting at the %dth position\n", i);
 	bckgrdList[i].pid = procID;
-	bckgrdList[i].usedCommand = value;
+	strcpy( bckgrdList[i].usedCommand, cmd );
 
 
 	/*
@@ -48,6 +44,7 @@ void printList(){
 	for(i = 0; i < MAX_LENGTH/2; i++){
 		if(bckgrdList[i].pid != 0)
 			printf("%d - %s\n", bckgrdList[i].pid, bckgrdList[i].usedCommand);
+			fflush(stdout);
 	}
 
 	/*

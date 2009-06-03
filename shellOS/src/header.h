@@ -16,7 +16,7 @@
 struct backgrNode{
 
 	int pid;
-	char *usedCommand;
+	char usedCommand[MAX_LENGTH];
 	struct backgrdNode* next;
 
 };
