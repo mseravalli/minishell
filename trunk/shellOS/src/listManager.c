@@ -13,7 +13,7 @@ void addToList(int procID, char cmd[]){
 			break;
 	}
 
-	printf("inserting at the %dth position\n", i);
+	//printf("inserting at the %dth position\n", i);
 	bckgrdList[i].pid = procID;
 	strcpy( bckgrdList[i].usedCommand, cmd );
 

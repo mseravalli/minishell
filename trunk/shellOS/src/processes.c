@@ -50,8 +50,6 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 	if (childpid > 0){
 		addToList(childpid, cmd[0]);
-		printList();
-		fflush(stdout);
 	}
 
 
