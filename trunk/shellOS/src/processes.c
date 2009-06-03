@@ -12,7 +12,8 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 	pid_t childpid = fork();
 	if (childpid ==0) {
-
+		signal(SIGINT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
@@ -56,6 +57,9 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 	if (childpid==0) {
 
+		signal(SIGINT, SIG_DFL);
+				signal(SIGTSTP, SIG_DFL);
+
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
@@ -77,6 +81,13 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 
 void put_into_foreground(int pid,int statval){
+	if(getpid() == pid){
+		signal(SIGINT, SIG_DFL);
+		signal(SIGTSTP, SIG_DFL);
+		//signal(SIGCHLD, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL);
+		signal(SIGTTIN, SIG_DFL);
+	}
 	printf("\n %d \n",pid);
 	setpgid(pid,pid);
 	tcsetpgrp(STDIN_FILENO,pid);
@@ -86,13 +97,6 @@ void put_into_foreground(int pid,int statval){
 	}
 	tcsetpgrp(STDIN_FILENO,getpid());
 }
-
-/*need the pid of the current process
-void put_into_background(){
-	setpgid(getpid(),getpid());
-	tcsetpgrp(STDIN_FILENO,getpid());
-}*/
-
 
 void kill_background(int pid){
 
