@@ -18,7 +18,7 @@ void catch_interrupt(int sig_num){
 	printf("\nmarco@laptop:->");
 	fflush(stdout);
 
-	signal(SIGINT, catch_interrupt);
+	signal(SIGINT, &catch_interrupt);
 }
 
 void catch_stop(int sig_num){
@@ -28,7 +28,7 @@ void catch_stop(int sig_num){
      */
 	printf("\nmarco@laptop:->");
 	fflush(stdout);
-    signal(SIGTSTP, catch_stop);
+	signal(SIGTSTP, &catch_stop);
 }
 
 void catch_chld(int sig_num){
