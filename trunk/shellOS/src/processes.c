@@ -49,6 +49,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 	if (childpid==0) {
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
+			fclose(stdin);
 			stdout = fopen(destination, "a");
 		}
 
