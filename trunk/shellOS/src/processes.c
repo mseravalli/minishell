@@ -61,7 +61,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 		exit(1);
 	}
 	setpgid(childpid,childpid);
-	tcsetpgrp(STDIN_FILENO,shellPID);
+	//tcsetpgrp(STDIN_FILENO,shellPID);
 	return;
 
 }
