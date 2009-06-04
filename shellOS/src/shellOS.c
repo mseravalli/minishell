@@ -60,8 +60,8 @@ int main(int argc, char *argv[]) {
 	shellPID = getpid();
 
 	while (1) {
-
-
+		statval2 = 1;
+		statval = 1;
 		printf("marco@laptop:->");
 		fflush(stdout);
 
@@ -114,7 +114,7 @@ int main(int argc, char *argv[]) {
 
 		if(strcmp("fg",values[0]) == 0){
 			printf("putting in foreground %d", atoi(values[1]));
-			put_into_foreground(atoi(values[1]),statval2);
+			put_into_foreground(atoi(values[1]),statval);
 			continue;
 		}
 
