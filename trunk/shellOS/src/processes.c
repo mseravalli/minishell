@@ -22,11 +22,12 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	}
 	setpgid(childpid,shellPID);
 
-	tcsetpgrp(STDIN_FILENO,childpid);
-	while (waitpid(childpid, NULL,WNOHANG | WUNTRACED) == 0 ){
 
+
+	tcsetpgrp(STDIN_FILENO,childpid);
+	while (waitpid(childpid, -1 ,WNOHANG | WUNTRACED) == 0 ){
 	}
-	setpgid(shellPID,shellPID);
+
 	tcsetpgrp(STDIN_FILENO,shellPID);
 
 	if (WIFEXITED(statval)) {
@@ -47,6 +48,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 
 	if (childpid==0) {
+		setpgid(childpid,childpid);
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			fclose(stdin);
@@ -61,7 +63,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
-	setpgid(childpid,childpid);
+
 	//tcsetpgrp(STDIN_FILENO,shellPID);
 	return;
 
@@ -73,7 +75,7 @@ void put_into_foreground(int pid,int statval){
 	setpgid(pid,shellPID);
 	tcsetpgrp(STDIN_FILENO,pid);
 	waitpid(pid, NULL,WUNTRACED);
-	setpgid(shellPID,shellPID);
+	//setpgid(shellPID,shellPID);
 	tcsetpgrp(STDIN_FILENO,shellPID);
 }
 void kill_background(int pid){
