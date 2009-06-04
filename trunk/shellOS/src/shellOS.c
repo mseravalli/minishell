@@ -113,7 +113,8 @@ int main(int argc, char *argv[]) {
 		}
 
 		if(strcmp("fg",values[0]) == 0){
-			printf("putting in foreground %d", atoi(values[1]));
+			printf("putting in foreground %d\n", atoi(values[1]));
+			fflush(stdout);
 			put_into_foreground(atoi(values[1]),statval);
 			continue;
 		}
