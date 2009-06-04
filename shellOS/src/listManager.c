@@ -92,7 +92,7 @@ void printList(){
 		fclose (stdout);
 		stdout = fopen(".ps", "w");
 
-		execlp("ps", "ps", "-eo", "pid,comm,ppid,state", NULL);
+		execlp("ps", "ps", "-eo", "pid,comm,ppid,state,pgid", NULL);
 		//fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
