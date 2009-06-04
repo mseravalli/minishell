@@ -57,13 +57,7 @@ int main(int argc, char *argv[]) {
 	int readPosition = 0;
 
 
-	/*int i;
-	for(i = 0; i < MAX_LENGTH/2; i++){
-		bckgrdList[i].pid = 0;
-	}*/
-
-
-	addToList(getpid(), "main program");
+	shellPID = getpid();
 
 	while (1) {
 

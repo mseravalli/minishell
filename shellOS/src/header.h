@@ -13,6 +13,9 @@
 #endif /* HEADER_H_ */
 
 
+int shellPID;
+
+
 struct backgrNode{
 
 	int pid;
