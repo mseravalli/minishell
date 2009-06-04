@@ -9,7 +9,6 @@
 
 
 void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
-
 	pid_t childpid = fork();
 	if (childpid ==0) {
 
@@ -18,10 +17,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
-		}
-
-		printf("%d - %s\n", getpid(), cmd[0]);
-		fflush(stdout);
+		};
 
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
@@ -31,11 +27,11 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 	tcsetpgrp(STDIN_FILENO,childpid);
 
-	while(waitpid(childpid, &statval,WNOHANG | WUNTRACED) == 0){
+	while(waitpid(childpid, 1,WNOHANG | WUNTRACED) == 0){
 		usleep(20000);
 	}
 
-	tcsetpgrp(STDIN_FILENO,getpid());
+	tcsetpgrp(STDIN_FILENO,shellPID);
 
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
@@ -73,28 +69,21 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 		exit(1);
 	}
 	setpgid(childpid,childpid);
-	tcsetpgrp(STDIN_FILENO,getpid());
+	tcsetpgrp(STDIN_FILENO,shellPID);
 	return;
 
 }
 
 
 void put_into_foreground(int pid,int statval){
-	if(getpid() == pid){
-		signal(SIGINT, SIG_DFL);
-		signal(SIGTSTP, SIG_DFL);
-		//signal(SIGCHLD, SIG_DFL);
-		signal(SIGTTOU, SIG_DFL);
-		signal(SIGTTIN, SIG_DFL);
-	}
-	printf("\n %d \n",pid);
-	setpgid(pid,pid);
 	tcsetpgrp(STDIN_FILENO,pid);
 
-	while(waitpid(pid, &statval,WNOHANG | WUNTRACED) == 0){
+	while(waitpid(pid, 1,WNOHANG | WUNTRACED) == 0){
+		printf("waiting");
 		usleep(20000);
 	}
-	tcsetpgrp(STDIN_FILENO,getpid());
+
+	tcsetpgrp(STDIN_FILENO,shellPID);
 }
 
 void kill_background(int pid){
