@@ -32,7 +32,7 @@
    42 kmpathd/0           2 S
    44 kmpath_handlerd     2 S
    45 ksnapd              2 S
-   46 kondemand/0         2 S
+   46 kondemand/0         2 R
    48 krfcommd            2 S
   319 khpsbpkt            2 S
   343 knodemgrd_0         2 S
@@ -42,8 +42,8 @@
  1564 pccardd             2 S
  1584 tifm                2 S
  1603 kpsmoused           2 S
- 1653 iwl3945             2 S
- 1654 phy0                2 S
+ 1653 iwl3945             2 R
+ 1654 phy0                2 R
  2236 getty               1 S
  2237 getty               1 S
  2244 getty               1 S
@@ -53,8 +53,8 @@
  2356 syslogd             1 S
  2379 dd                  1 S
  2381 klogd               1 S
- 2404 dbus-daemon         1 S
- 2441 wicd                1 S
+ 2404 dbus-daemon         1 R
+ 2441 wicd                1 R
  2463 hald                1 S
  2466 console-kit-dae     1 S
  2529 hald-runner      2463 S
@@ -72,7 +72,7 @@
  2805 atd                 1 S
  2926 getty               1 S
  2973 kdm              2669 S
- 2977 wicd-monitor        1 S
+ 2977 wicd-monitor        1 R
  2994 dbus-launch         1 S
  2995 dbus-daemon         1 S
  3043 x-session-manag  2973 S
@@ -89,7 +89,6 @@
  3209 knotify4            1 S
  3210 plasma              1 S
  3211 nepomukserver       1 S
- 3218 kio_file         3136 S
  3223 kaccess             1 S
  3234 krunner             1 S
  3247 konqueror        3199 S
@@ -119,7 +118,6 @@
  4710 events/1            2 S
  5044 hald-addon-leds  2529 S
  5048 wpa_supplicant      1 S
- 5245 eclipse          3210 S
  5300 dhclient            1 S
  6096 cron                1 S
  6264 cupsd               1 S
@@ -136,9 +134,14 @@
 13224 kded4               1 S
 13232 kio_file        13220 S
 23829 kio_file         3136 S
-24101 xterm            3234 S
-24102 bash            24101 S
-25932 kio_file         3136 S
-25988 shellOS         24102 S
-25999 kate            25988 S
-26010 ps              25988 R
+26394 eclipse          3210 S
+26672 xterm            3234 S
+26673 bash            26672 S
+27628 xterm            3234 S
+27629 bash            27628 S
+28246 kate                1 S
+28335 shellOS         26673 R
+28340 kio_file         3136 S
+28347 shell <defunct> 28335 Z
+28355 ps              28335 R
+28356 ifcon <defunct>  2441 Z
