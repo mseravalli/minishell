@@ -119,7 +119,7 @@ void kill_background(int pid){
 	fflush(stdout);
 
 	kill(pid, SIGKILL);
-	deleteFromList(pid);
+	//deleteFromList(pid);
 }
 
 
