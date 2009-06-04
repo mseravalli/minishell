@@ -10,25 +10,44 @@
 
 void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	pid_t childpid = fork();
+
 	if (childpid ==0) {
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
 		}
 
+		tcsetpgrp(STDIN_FILENO,childpid);
+
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
-	setpgid(childpid,shellPID);
+
+	if(childpid > 0){
+		setpgid(childpid,shellPID);
 
 
 
-	tcsetpgrp(STDIN_FILENO,childpid);
-	while (waitpid(childpid, -1 ,WNOHANG | WUNTRACED) == 0 ){
+
+		while (waitpid(childpid, NULL ,WNOHANG | WUNTRACED) == 0 ){
+			usleep(30000);
+			//printf("%d", waitpid(childpid, NULL ,WNOHANG | WUNTRACED));
+
+		}
+
+		tcsetpgrp(STDIN_FILENO,shellPID);
+
+		/*
+		setpgid(childpid,shellPID);
+		tcsetpgrp(STDIN_FILENO,childpid);
+
+
+		waitpid(childpid, NULL,WUNTRACED|WNOHANG);
+		//setpgid(shellPID,shellPID);
+		tcsetpgrp(STDIN_FILENO,shellPID);
+		*/
 	}
-
-	tcsetpgrp(STDIN_FILENO,shellPID);
 
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
