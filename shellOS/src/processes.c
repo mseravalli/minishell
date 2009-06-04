@@ -14,7 +14,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 		if (strcmp("/dev/tty",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
-		};
+		}
 
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
@@ -23,7 +23,9 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	setpgid(childpid,shellPID);
 
 	tcsetpgrp(STDIN_FILENO,childpid);
-	waitpid(childpid, NULL,WNOHANG | WUNTRACED);
+	while (waitpid(childpid, NULL,WNOHANG | WUNTRACED) == 0 ){
+
+	}
 	setpgid(shellPID,shellPID);
 	tcsetpgrp(STDIN_FILENO,shellPID);
 
