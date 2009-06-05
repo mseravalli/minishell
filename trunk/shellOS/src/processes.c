@@ -93,11 +93,11 @@ void put_into_foreground(int pid,int statval){
 
 	kill(pid, SIGCONT);
 
-	int result = getpgid(pid);
+	int group = getpgid(pid);
 
 
 
-	if(result != getpgid(shellPID)){
+	if(group != getpgid(shellPID)){
 
 		//printf("the process did not belong to the pgid of the shell \n");
 		//fflush(stdout);
