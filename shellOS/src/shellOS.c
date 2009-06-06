@@ -38,6 +38,8 @@ void catch_chld(int sig_num){
 
 int main(int argc, char *argv[]) {
 
+	strcpy(SHELL_LOCATION, "\/dev\/tty");
+
 	signal(SIGINT, &catch_interrupt);
 	signal(SIGTSTP, &catch_stop);
 	signal(SIGCHLD, &catch_chld);
@@ -66,7 +68,7 @@ int main(int argc, char *argv[]) {
 		fflush(stdout);
 
 
-		if (strcmp("/dev/tty",redirectInput) == 0){
+		if (strcmp(SHELL_LOCATION,redirectInput) == 0){
 			fgets(cmd, MAX_LENGTH, stdin);
 		} else {
 			fclose(stdin);
@@ -83,7 +85,7 @@ int main(int argc, char *argv[]) {
 			if(readPosition > SEEK_END){
 				readPosition = 0;
 				readOffset = 0;
-				strcpy(redirectInput, "\/dev\/tty");
+				strcpy(redirectInput, SHELL_LOCATION);
 				fclose(stdin);
 				stdin = fopen(redirectInput, "r");
 			}
@@ -178,7 +180,7 @@ int main(int argc, char *argv[]) {
 			run_foreground(values, argv, statval, redirectOutput);
 		}
 
-		strcpy(redirectOutput, "\/dev\/tty");
+		strcpy(redirectOutput, SHELL_LOCATION);
 
 	}
 
