@@ -132,17 +132,27 @@ int main(int argc, char *argv[]) {
 
 		if (strcmp("out",values[0]) == 0) {
 			if(values[1] != NULL){
+				int i = 0;
+
 				strcpy(redirectOutput, values[1]);
 				printf("output redirect to %s\n", values[1]);
+
+				strcpy(values[0], "");
+				strcpy(values[1], "");
+
+				for(i = 0; i < (size - 2) ;i++){
+					strcpy(values[i], values[i+2]);
+				}
+
+				values[size - 1] = NULL;
+				values[size - 2] = NULL;
+
+				size = size - 2;
+
+			} else  {
+				continue;
 			}
-			continue;
-		}
 
-
-		if (strcmp("restoreout",values[0]) == 0) {
-			printf("restoring stdout\n");
-			strcpy(redirectOutput, "\/dev\/tty");
-			continue;
 		}
 
 
@@ -157,19 +167,19 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-
 		if(*values[size-1] == '&'){
 
 			values[size-1] = NULL;
 
-			//printf("process launched in background\n");
 			run_background(values, argv, statval, redirectOutput);
 		}
 		else{
-			//printf("process launched in foreground\n");
 
 			run_foreground(values, argv, statval, redirectOutput);
 		}
+
+		strcpy(redirectOutput, "\/dev\/tty");
+
 	}
 
 	exit(0);
