@@ -12,7 +12,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	pid_t childpid = fork();
 
 	if (childpid ==0) {
-		if (strcmp("/dev/tty",destination) != 0){
+		if (strcmp(SHELL_LOCATION, destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
 		}
@@ -32,28 +32,18 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 		while (waitpid(childpid, NULL ,WNOHANG | WUNTRACED) == 0 ){
 			usleep(30000);
-			//printf("%d", waitpid(childpid, NULL ,WNOHANG | WUNTRACED));
 
 		}
 
 		tcsetpgrp(STDIN_FILENO,shellPID);
 
-		/*
-		setpgid(childpid,shellPID);
-		tcsetpgrp(STDIN_FILENO,childpid);
-
-
-		waitpid(childpid, NULL,WUNTRACED|WNOHANG);
-		//setpgid(shellPID,shellPID);
-		tcsetpgrp(STDIN_FILENO,shellPID);
-		*/
 	}
 
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
 			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
 		} else {
-			//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
 	}
 
 }
@@ -68,9 +58,8 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 	if (childpid==0) {
 		setpgid(childpid,childpid);
-		if (strcmp("/dev/tty",destination) != 0){
+		if (strcmp("SHELL_LOCATION",destination) != 0){
 			fclose (stdout);
-			//fclose(stdin);
 			stdout = fopen(destination, "a");
 		}
 
@@ -83,7 +72,6 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 		exit(1);
 	}
 
-	//tcsetpgrp(STDIN_FILENO,shellPID);
 	return;
 
 }
@@ -99,8 +87,6 @@ void put_into_foreground(int pid,int statval){
 
 	if(group != getpgid(shellPID)){
 
-		//printf("the process did not belong to the pgid of the shell \n");
-		//fflush(stdout);
 
 		setpgid(pid,shellPID);
 		tcsetpgrp(STDIN_FILENO,pid);
@@ -108,7 +94,6 @@ void put_into_foreground(int pid,int statval){
 
 	waitpid(pid, NULL,WUNTRACED);
 
-	//setpgid(shellPID,shellPID);
 
 	tcsetpgrp(STDIN_FILENO,shellPID);
 
