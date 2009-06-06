@@ -16,9 +16,13 @@ void parseString(char *CmdBuf, char *argv[], int *size){
 
 	  int counter = 0;
 	  element = strtok (CmdBuf,sep);
-	  while (element != NULL)
-	  {
-	    argv[counter] = element;
+	  while (element != NULL){
+
+		  argv[counter] = malloc(MAX_LENGTH*sizeof(char));
+
+		  strcpy(argv[counter], element);
+
+	    //argv[counter] = element;
 	    counter++;
 	    argv[counter]=NULL;
 	    element = strtok(NULL, sep);
