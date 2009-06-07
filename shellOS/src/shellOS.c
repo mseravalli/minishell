@@ -68,9 +68,9 @@ int main(int argc, char *argv[]) {
 		fflush(stdout);
 
 
-		if (strcmp(SHELL_LOCATION,redirectInput) == 0){
+		//if (strcmp(SHELL_LOCATION,redirectInput) == 0){
 			fgets(cmd, MAX_LENGTH, stdin);
-		} else {
+		/*} else {
 			fclose(stdin);
 			stdin = fopen(redirectInput, "r");
 			fseek (stdin , readOffset , SEEK_SET );
@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
 				stdin = fopen(redirectInput, "r");
 			}
 
-		}
+		}*/
 
 
 		if ('\n' == cmd[0]) {
@@ -133,14 +133,11 @@ int main(int argc, char *argv[]) {
 		 */
 
 		if (strcmp("out",values[0]) == 0) {
-			if(values[1] != NULL){
+			if(values[1] != NULL && values[2] != NULL){
 				int i = 0;
 
 				strcpy(redirectOutput, values[1]);
 				printf("output redirect to %s\n", values[1]);
-
-				strcpy(values[0], "");
-				strcpy(values[1], "");
 
 				for(i = 0; i < (size - 2) ;i++){
 					strcpy(values[i], values[i+2]);
@@ -162,11 +159,25 @@ int main(int argc, char *argv[]) {
 		 * redirection of input
 		 */
 		if (strcmp("in",values[0]) == 0) {
-			if(values[1] != NULL){
+			if(values[1] != NULL && values[2] != NULL){
+				int i = 0;
+
 				strcpy(redirectInput, values[1]);
 				printf("input redirect to %s\n", values[1]);
+
+				for(i = 0; i < (size - 2) ;i++){
+					strcpy(values[i], values[i+2]);
+				}
+
+				values[size - 1] = NULL;
+				values[size - 2] = NULL;
+
+				size = size - 2;
+
+			} else  {
+				continue;
 			}
-			continue;
+
 		}
 
 		if(*values[size-1] == '&'){
@@ -177,10 +188,11 @@ int main(int argc, char *argv[]) {
 		}
 		else{
 
-			run_foreground(values, argv, statval, redirectOutput);
+			run_foreground(values, argv, statval, redirectOutput, redirectInput);
 		}
 
 		strcpy(redirectOutput, SHELL_LOCATION);
+		strcpy(redirectInput, SHELL_LOCATION);
 
 	}
 

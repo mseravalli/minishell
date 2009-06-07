@@ -14,7 +14,7 @@
 
 
 int shellPID;
-char SHELL_LOCATION[];
+char SHELL_LOCATION[20];
 
 struct backgrNode{
 
