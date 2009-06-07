@@ -8,7 +8,7 @@
 #include "header.h"
 
 
-void run_foreground(char *cmd[], char *argv[], int statval, char *destination, char *source){
+void run_foreground(char *cmd[], char *argv[], int statval, char *source, char *destination){
 	pid_t childpid = fork();
 
 	if (childpid ==0) {
@@ -54,7 +54,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination, c
 
 }
 
-void run_background(char *cmd[], char *argv[], int statval, char *destination, char *source){
+void run_background(char *cmd[], char *argv[], int statval, char *source, char *destination){
 
 
 
@@ -70,19 +70,22 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination, c
 
 		setpgid(childpid,childpid);
 
-		if (strcmp("SHELL_LOCATION",destination) != 0){
-			fclose (stdout);
+		/*int i;
+		for (i=getdtablesize();i>=0;--i){
+			close(i);
+		}*/
+		fclose (stdout);
+		if (strcmp(SHELL_LOCATION, destination) != 0){
 			stdout = fopen(destination, "a");
 		}
 
+		fclose (stdin);
 		if (strcmp(SHELL_LOCATION, source) != 0){
-			fclose (stdin);
 			stdin = fopen(source, "r");
 		}
 
-		int i;
-		for (i=getdtablesize();i>=0;--i)
-			close(i);
+
+
 
 		execvp(cmd[0], cmd);
 		fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
