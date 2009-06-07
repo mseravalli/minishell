@@ -68,29 +68,7 @@ int main(int argc, char *argv[]) {
 		fflush(stdout);
 
 
-		//if (strcmp(SHELL_LOCATION,redirectInput) == 0){
-			fgets(cmd, MAX_LENGTH, stdin);
-		/*} else {
-			fclose(stdin);
-			stdin = fopen(redirectInput, "r");
-			fseek (stdin , readOffset , SEEK_SET );
-			fgets(cmd, MAX_LENGTH, stdin);
-
-			printf("%s", cmd);
-
-			readPosition++;
-			readOffset = readOffset + strlen(cmd);
-
-			//this part restores the input from the shell
-			if(readPosition > SEEK_END){
-				readPosition = 0;
-				readOffset = 0;
-				strcpy(redirectInput, SHELL_LOCATION);
-				fclose(stdin);
-				stdin = fopen(redirectInput, "r");
-			}
-
-		}*/
+		fgets(cmd, MAX_LENGTH, stdin);
 
 
 		if ('\n' == cmd[0]) {
@@ -128,6 +106,33 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
+
+		/*
+		 * redirection of input
+		 */
+		if (strcmp("in",values[0]) == 0) {
+			if(values[1] != NULL && values[2] != NULL){
+				int i = 0;
+
+				strcpy(redirectInput, values[1]);
+				printf("input redirect to %s\n", values[1]);
+
+				for(i = 0; i < (size - 2) ;i++){
+					strcpy(values[i], values[i+2]);
+				}
+
+				values[size - 1] = NULL;
+				values[size - 2] = NULL;
+
+				size = size - 2;
+
+			} else  {
+				continue;
+			}
+
+		}
+
+
 		/*
 		 * redirection of output
 		 */
@@ -155,40 +160,17 @@ int main(int argc, char *argv[]) {
 		}
 
 
-		/*
-		 * redirection of input
-		 */
-		if (strcmp("in",values[0]) == 0) {
-			if(values[1] != NULL && values[2] != NULL){
-				int i = 0;
 
-				strcpy(redirectInput, values[1]);
-				printf("input redirect to %s\n", values[1]);
-
-				for(i = 0; i < (size - 2) ;i++){
-					strcpy(values[i], values[i+2]);
-				}
-
-				values[size - 1] = NULL;
-				values[size - 2] = NULL;
-
-				size = size - 2;
-
-			} else  {
-				continue;
-			}
-
-		}
 
 		if(*values[size-1] == '&'){
 
 			values[size-1] = NULL;
 
-			run_background(values, argv, statval,redirectOutput, redirectInput);
+			run_background(values, argv, statval, redirectInput, redirectOutput);
 		}
 		else{
 
-			run_foreground(values, argv, statval, redirectOutput, redirectInput);
+			run_foreground(values, argv, statval, redirectInput, redirectOutput);
 		}
 
 		strcpy(redirectOutput, SHELL_LOCATION);
