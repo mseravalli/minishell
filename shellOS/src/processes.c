@@ -55,10 +55,14 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination, c
 }
 
 void run_background(char *cmd[], char *argv[], int statval, char *destination, char *source){
+
+
+
 	pid_t childpid = fork();
 
 	if (childpid > 0){
-		addToList(childpid, cmd[0]);
+
+		addToList(childpid, cmd[0], source, destination);
 	}
 
 

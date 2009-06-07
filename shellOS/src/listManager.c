@@ -80,15 +80,6 @@ void printList(){
 
 
 */
-	struct backgrNode *tmpNode;
-	tmpNode = bckgrdList;
-	while(tmpNode != NULL){
-
-		printf("%d - %s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, tmpNode->inResource,  tmpNode->outResource);
-		tmpNode = tmpNode->next;
-
-	}
-
 
 	int statval = 1;
 	pid_t childpid = fork();
@@ -96,7 +87,7 @@ void printList(){
 		fclose (stdout);
 		stdout = fopen(".ps", "w");
 
-		execlp("ps", "ps", "-eo", "pid,comm,ppid,state,pgid", NULL);
+		execlp("ps", "ps", "-eo", "pid,state", NULL);
 		//fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
 		exit(1);
 	}
@@ -112,18 +103,62 @@ void printList(){
 
 
 
+	struct backgrNode *tmpNode;
+	tmpNode = bckgrdList;
+	char buf[5];
+	char pidToFind[5];
+	int isFound = 0;
+	char pState[1];
 
+	FILE * processesList;
+
+
+	processesList =fopen(".ps", "r");
+
+	while(tmpNode != NULL){
+		freopen(".ps", "r", processesList);
+		isFound = 0;
+
+		sprintf(pidToFind, "%d", tmpNode->pid);
+
+		while(!feof (processesList)){
+			fscanf(processesList, "%s", buf);
+
+			if (strcmp(buf, pidToFind) == 0){
+				isFound = 1;
+				fscanf(processesList, "%s", pState);
+				break;
+			}
+
+
+		}
+
+		if(isFound == 1)
+			printf("%d - %s \t%s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, pState, tmpNode->inResource,  tmpNode->outResource);
+
+
+
+
+		tmpNode = tmpNode->next;
+	}
+
+
+	fclose(processesList);
+
+
+	/*
 	statval = 1;
 		childpid = fork();
 		if (childpid == 0) {
-
+			fclose (stdout);
+			stdout = fopen(".ps1", "w");
 			char buf[5];
 			sprintf(buf, "%d", shellPID);
 
 
 
 			execlp("grep", "grep", "-w", buf, ".ps", NULL);
-			//fprintf(stderr,"%s: EXEC of %s failed: %s\n", argv[0], cmd[0], strerror(errno));
+
 			exit(1);
 		}
 
@@ -134,6 +169,7 @@ void printList(){
 		}
 
 		tcsetpgrp(STDIN_FILENO,getpid());
+		*/
 
 
 }
