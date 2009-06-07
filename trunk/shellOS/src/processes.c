@@ -104,7 +104,6 @@ void put_into_foreground(int pid,int statval){
 	int group = getpgid(pid);
 
 
-
 	if(group != getpgid(shellPID)){
 
 
