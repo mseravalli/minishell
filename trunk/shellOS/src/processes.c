@@ -18,7 +18,6 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination, c
 		}
 
 		if (strcmp(SHELL_LOCATION, source) != 0){
-			printf("something strange's happening\n");
 			fclose (stdin);
 			stdin = fopen(source, "r");
 		}
@@ -32,6 +31,9 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination, c
 	}
 
 	if(childpid > 0){
+
+		addToList(childpid, cmd[0], source, destination);
+
 		setpgid(childpid,shellPID);
 
 		while (waitpid(childpid, NULL ,WNOHANG | WUNTRACED) == 0 ){
@@ -52,7 +54,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination, c
 
 }
 
-void run_background(char *cmd[], char *argv[], int statval, char *destination){
+void run_background(char *cmd[], char *argv[], int statval, char *destination, char *source){
 	pid_t childpid = fork();
 
 	if (childpid > 0){
@@ -61,10 +63,17 @@ void run_background(char *cmd[], char *argv[], int statval, char *destination){
 
 
 	if (childpid==0) {
+
 		setpgid(childpid,childpid);
+
 		if (strcmp("SHELL_LOCATION",destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
+		}
+
+		if (strcmp(SHELL_LOCATION, source) != 0){
+			fclose (stdin);
+			stdin = fopen(source, "r");
 		}
 
 		int i;

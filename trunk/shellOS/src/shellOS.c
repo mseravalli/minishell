@@ -184,7 +184,7 @@ int main(int argc, char *argv[]) {
 
 			values[size-1] = NULL;
 
-			run_background(values, argv, statval, redirectOutput);
+			run_background(values, argv, statval,redirectOutput, redirectInput);
 		}
 		else{
 
