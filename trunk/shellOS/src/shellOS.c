@@ -122,9 +122,9 @@ int main(int argc, char *argv[]) {
 		}
 
 		if (strcmp("jobs",values[0]) == 0) {
-			printf("this is the list\n");
+
 			printList();
-			fflush(stdout);
+
 			continue;
 		}
 
