@@ -14,12 +14,16 @@
 
 
 int shellPID;
-char SHELL_LOCATION[20];
+char SHELL_LOCATION[MAX_LENGTH];
 
 struct backgrNode{
 
 	int pid;
 	char usedCommand[MAX_LENGTH];
+
+	char inResource[MAX_LENGTH];
+	char outResource[MAX_LENGTH];
+
 	struct backgrNode* next;
 
 };

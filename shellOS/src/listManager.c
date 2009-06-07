@@ -8,7 +8,7 @@
 #include "header.h"
 
 
-void addToList(int procID, char cmd[]){
+void addToList(int procID, char cmd[], char inRes[], char outRes[]){
 
 /*
 	int i = 0;
@@ -33,6 +33,10 @@ void addToList(int procID, char cmd[]){
 
 	tmpNode->pid = procID;
 	strcpy( tmpNode->usedCommand, cmd );
+
+	strcpy( tmpNode->inResource, inRes );
+	strcpy( tmpNode->outResource, outRes );
+
 	tmpNode->next = bckgrdList;
 
 	bckgrdList = tmpNode;
@@ -75,15 +79,15 @@ void printList(){
 
 
 
-
+*/
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
 	while(tmpNode != NULL){
 
-		printf("%d - %s\n", tmpNode->pid, tmpNode->usedCommand);
+		printf("%d - %s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, tmpNode->inResource,  tmpNode->outResource);
 		tmpNode = tmpNode->next;
 
-	}*/
+	}
 
 
 	int statval = 1;
