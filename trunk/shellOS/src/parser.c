@@ -5,12 +5,10 @@
 
 void parseString(char *CmdBuf, char *argv[], int *size){
 
-
 	int i;
-	//for(i = 0; i<MAX_LENGTH/2; i++){
-	for(i = 0; i<*size; i++){
-		printf("%d\n",i);
-		fflush(stdout);
+
+	for(i = 0; i<*size && i<MAX_LENGTH/2; i++){
+
 		argv[i] = NULL;
 	}
 
