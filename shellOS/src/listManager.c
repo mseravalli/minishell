@@ -105,10 +105,10 @@ void printList(){
 
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
-	char buf[5];
+	char pidFound[5];
 	char pidToFind[5];
 	int isFound = 0;
-	char pState[1];
+	char pState[5];
 
 	FILE * processesList;
 
@@ -116,27 +116,29 @@ void printList(){
 	processesList =fopen(".ps", "r");
 
 	while(tmpNode != NULL){
+
+
 		freopen(".ps", "r", processesList);
 		isFound = 0;
 
 		sprintf(pidToFind, "%d", tmpNode->pid);
 
 		while(!feof (processesList)){
-			fscanf(processesList, "%s", buf);
+			fscanf(processesList, "%s", pidFound);
 
-			if (strcmp(buf, pidToFind) == 0){
+			if (strcmp(pidFound, pidToFind) == 0){
 				isFound = 1;
 				fscanf(processesList, "%s", pState);
-				break;
+//				break;
 			}
 
 
 		}
 
-		if(isFound == 1)
+		if(isFound == 1){
 			printf("%d - %s \t%s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, pState, tmpNode->inResource,  tmpNode->outResource);
-
-
+			fflush(stdout);
+		}
 
 
 		tmpNode = tmpNode->next;
@@ -144,6 +146,9 @@ void printList(){
 
 
 	fclose(processesList);
+
+
+
 
 
 	/*
