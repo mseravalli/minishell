@@ -8,7 +8,7 @@
 #include "header.h"
 
 
-void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
+void run_foreground(char *cmd[], char *argv[], int statval, char *destination, char *source){
 	pid_t childpid = fork();
 
 	if (childpid ==0) {
@@ -16,6 +16,13 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
 		}
+
+		if (strcmp(SHELL_LOCATION, source) != 0){
+			printf("something strange's happening\n");
+			fclose (stdin);
+			stdin = fopen(source, "r");
+		}
+
 
 		tcsetpgrp(STDIN_FILENO,childpid);
 
@@ -26,9 +33,6 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 
 	if(childpid > 0){
 		setpgid(childpid,shellPID);
-
-
-
 
 		while (waitpid(childpid, NULL ,WNOHANG | WUNTRACED) == 0 ){
 			usleep(30000);
@@ -42,8 +46,8 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *destination){
 	if (WIFEXITED(statval)) {
 		if (WEXITSTATUS(statval))
 			fprintf(stderr, "%s: child exited with status %d\n", argv[0], WEXITSTATUS(statval));
-		} else {
-			fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
+	} else {
+		//fprintf(stderr,"%s: child died unexpectedly\n", argv[0]);
 	}
 
 }
