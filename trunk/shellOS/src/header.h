@@ -48,6 +48,6 @@ void kill_background();
 void addToList();
 void deleteFromList();
 void printList();
-void updateState();
+void cleanList();
 
 void redirectOut();
