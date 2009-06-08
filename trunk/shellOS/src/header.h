@@ -48,6 +48,5 @@ void kill_background();
 void addToList();
 void deleteFromList();
 void printList();
-void cleanList();
 
 void redirectOut();
