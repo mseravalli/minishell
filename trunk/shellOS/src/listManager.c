@@ -84,6 +84,8 @@ void cleanList(){
 
 			if(strcmp("Z", pState) == 0){
 				deleteFromList(tmpNode->pid);
+			} else {
+				strcpy(tmpNode->pState, pState);
 			}
 
 
