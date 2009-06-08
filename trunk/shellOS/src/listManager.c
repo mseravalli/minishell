@@ -123,7 +123,7 @@ void printList(){
 
 		}
 
-		if(isFound == 1){
+		if(isFound == 1 && strcmp(tmpNode->pState, "Z") != 0){
 			printf("%d - %s \t%s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, tmpNode->pState, tmpNode->inResource,  tmpNode->outResource);
 			fflush(stdout);
 		}
