@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 
 		updateState();
 
-		printf("marco@laptop:->");
+		printf("minishell:->");
 		fflush(stdout);
 
 
