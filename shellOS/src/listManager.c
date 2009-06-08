@@ -51,7 +51,7 @@ void deleteFromList(int procID){
 }
 
 
-void cleanList(){
+void updateList(){
 
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
@@ -103,7 +103,7 @@ void cleanList(){
 
 void printList(){
 
-	cleanList();
+	updateList();
 
 	struct backgrNode *tmpNode;
 	tmpNode = bckgrdList;
