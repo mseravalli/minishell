@@ -91,9 +91,10 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-		/*if (strcmp("cd",values[0]) == 0) {
+/*		if (strcmp("cd",values[0]) == 0) {
+
 			if(chdir(values[1]) != 0){
-				printf("\nDirectory does not exist");
+				printf("\nDirectory does not exist\n");
 			}
 			continue;
 		}*/
