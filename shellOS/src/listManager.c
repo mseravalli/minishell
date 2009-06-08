@@ -207,8 +207,17 @@ void updateState(){
 
 			} else if((strcmp(pListState, tmpNode->pState) != 0)){
 
-				printf("\n%d - %s \t%s \t stdin: %s \t stdout: %s\n", tmpNode->pid, tmpNode->usedCommand, pListState, tmpNode->inResource,  tmpNode->outResource);
-				fflush(stdout);
+				if((strcmp(pListState, "T") == 0)){
+
+					printf("\n%d - %s \t%s\n", tmpNode->pid, tmpNode->usedCommand, "waiting for an input");
+					fflush(stdout);
+				}
+
+				if((strcmp(pListState, "Z") == 0)){
+
+					printf("\n%d - %s \t%s\n", tmpNode->pid, tmpNode->usedCommand, "died");
+					fflush(stdout);
+				}
 
 				strcpy(tmpNode->pState, pListState);
 			}

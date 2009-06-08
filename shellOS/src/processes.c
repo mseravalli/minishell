@@ -119,9 +119,6 @@ void put_into_foreground(int pid,int statval){
 }
 void kill_background(int pid){
 
-	printf("%d\n",pid);
-	fflush(stdout);
-
 	kill(pid, SIGKILL);
 	//deleteFromList(pid);
 }
