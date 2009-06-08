@@ -86,6 +86,18 @@ int main(int argc, char *argv[]) {
 			exit(0);
 		}
 
+		if (strcmp("clear",values[0]) == 0) {
+			printf("\033[H\033[2J");
+			continue;
+		}
+
+		/*if (strcmp("cd",values[0]) == 0) {
+			if(chdir(values[1]) != 0){
+				printf("\nDirectory does not exist");
+			}
+			continue;
+		}*/
+
 
 		if (strcmp("kill",values[0]) == 0) {
 			if(values[1] == NULL)
