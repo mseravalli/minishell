@@ -24,6 +24,8 @@ struct backgrNode{
 	char inResource[MAX_LENGTH];
 	char outResource[MAX_LENGTH];
 
+	char pState[5];
+
 	struct backgrNode* next;
 
 };
@@ -46,5 +48,6 @@ void kill_background();
 void addToList();
 void deleteFromList();
 void printList();
+void updateState();
 
 void redirectOut();
