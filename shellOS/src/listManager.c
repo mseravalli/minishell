@@ -93,7 +93,9 @@ void updateList(){
 
 		}
 
-		tmpNode = tmpNode->next;
+
+		if(tmpNode != NULL)
+			tmpNode = tmpNode->next;
 
 
 	}
