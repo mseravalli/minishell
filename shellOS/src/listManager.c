@@ -34,19 +34,20 @@ void deleteFromList(int procID){
 	tmpNode= malloc(sizeof(struct backgrNode));
 	tmpNode->next = bckgrdList;
 
-	if(bckgrdList->pid == procID){
-		bckgrdList = bckgrdList->next;
-	}else{
-		while(tmpNode->next != NULL){
 
+	while(tmpNode != NULL){
+
+		if(tmpNode->next != NULL){
 			if(tmpNode->next->pid == procID){
-				tmpNode->next->pid = 0;
+
 				tmpNode->next = tmpNode->next->next;
 			}
-			tmpNode = tmpNode->next;
 
+			tmpNode = tmpNode->next;
 		}
+
 	}
+
 
 }
 
@@ -70,7 +71,7 @@ void updateList(){
 		if(kill(tmpNode->pid, 0) == -1){
 			deleteFromList(tmpNode->pid);
 		} else {
-			sprintf(pidToFind, "%d", tmpNode->pid);
+/*			sprintf(pidToFind, "%d", tmpNode->pid);
 
 			strcat(fileLocation, pidToFind );
 			strcat(fileLocation, "/stat" );
@@ -90,7 +91,7 @@ void updateList(){
 
 
 			fclose(processesState);
-
+*/
 		}
 
 
