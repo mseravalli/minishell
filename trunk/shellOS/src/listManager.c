@@ -34,18 +34,25 @@ void deleteFromList(int procID){
 	tmpNode= malloc(sizeof(struct backgrNode));
 	tmpNode->next = bckgrdList;
 
+	if(bckgrdList != NULL){
 
-	while(tmpNode != NULL){
-
-		if(tmpNode->next != NULL){
-			if(tmpNode->next->pid == procID){
-
-				tmpNode->next = tmpNode->next->next;
-			}
-
-			tmpNode = tmpNode->next;
+		if(bckgrdList->pid == procID){
+			bckgrdList = bckgrdList->next;
 		}
 
+	}else{
+		while(tmpNode != NULL){
+
+			if(tmpNode->next != NULL){
+				if(tmpNode->next->pid == procID){
+
+					tmpNode->next = tmpNode->next->next;
+				}
+
+				tmpNode = tmpNode->next;
+			}
+
+		}
 	}
 
 
@@ -63,6 +70,9 @@ void updateList(){
 	char pState[MAX_LENGTH];
 
 	strcpy(fileLocation, "/proc/");
+	sprintf(pidToFind, "%d", tmpNode->pid);
+	strcat(fileLocation, pidToFind );
+	strcat(fileLocation, "/stat" );
 
 	while(tmpNode != NULL){
 
@@ -70,33 +80,10 @@ void updateList(){
 
 		if(kill(tmpNode->pid, 0) == -1){
 			deleteFromList(tmpNode->pid);
-		} else {
-			sprintf(pidToFind, "%d", tmpNode->pid);
-
-			strcat(fileLocation, pidToFind );
-			strcat(fileLocation, "/stat" );
-
-
-			processesState = fopen(fileLocation, "r");
-
-			fscanf(processesState, "%s", pState);
-			fscanf(processesState, "%s", pState);
-			fscanf(processesState, "%s", pState);
-
-			if(strcmp("Z", pState) == 0){
-				deleteFromList(tmpNode->pid);
-			} else {
-				strcpy(tmpNode->pState, pState);
-			}
-
-
-			fclose(processesState);
-
 		}
 
 
-		if(tmpNode != NULL)
-			tmpNode = tmpNode->next;
+		tmpNode = tmpNode->next;
 
 
 	}
