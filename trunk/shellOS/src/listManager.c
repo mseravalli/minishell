@@ -71,7 +71,7 @@ void updateList(){
 		if(kill(tmpNode->pid, 0) == -1){
 			deleteFromList(tmpNode->pid);
 		} else {
-/*			sprintf(pidToFind, "%d", tmpNode->pid);
+			sprintf(pidToFind, "%d", tmpNode->pid);
 
 			strcat(fileLocation, pidToFind );
 			strcat(fileLocation, "/stat" );
@@ -91,7 +91,7 @@ void updateList(){
 
 
 			fclose(processesState);
-*/
+
 		}
 
 
