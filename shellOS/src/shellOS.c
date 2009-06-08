@@ -55,8 +55,7 @@ int main(int argc, char *argv[]) {
 
 	char redirectOutput[] = "/dev/tty";
 	char redirectInput[] = "/dev/tty";
-	int readOffset = 0;
-	int readPosition = 0;
+
 
 
 	shellPID = getpid();
@@ -64,6 +63,9 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		statval2 = 1;
 		statval = 1;
+
+		updateState();
+
 		printf("marco@laptop:->");
 		fflush(stdout);
 
