@@ -19,6 +19,7 @@ char SHELL_LOCATION[MAX_LENGTH];
 struct backgrNode{
 
 	int pid;
+	int pgid;
 	char usedCommand[MAX_LENGTH];
 
 	char inResource[MAX_LENGTH];
@@ -48,5 +49,4 @@ void kill_background();
 void addToList();
 void deleteFromList();
 void printList();
-
-void redirectOut();
+void notifyDeath();
