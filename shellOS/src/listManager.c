@@ -15,6 +15,8 @@ void addToList(int procID, char cmd[], char inRes[], char outRes[]){
 	tmpNode = malloc(sizeof(struct backgrNode));
 
 	tmpNode->pid = procID;
+	tmpNode->pgid = getpgid(tmpNode->pid);
+
 	strcpy( tmpNode->usedCommand, cmd );
 
 	strcpy( tmpNode->inResource, inRes );
@@ -127,6 +129,57 @@ void printList(){
 
 
 
+
+}
+
+void notifyDeath(){
+
+	struct backgrNode *tmpNode;
+		tmpNode = bckgrdList;
+
+		FILE * processesState;
+		char fileLocation[50];
+		char pidToFind[5];
+		char pState[MAX_LENGTH];
+
+		while(tmpNode != NULL){
+
+
+			if(shellPID != tmpNode->pgid && kill(tmpNode->pid, 0) == -1){
+				printf("background process %d died\n", tmpNode->pid);
+				fflush(stdout);
+
+				deleteFromList(tmpNode->pid);
+
+			}else if(shellPID != tmpNode->pgid && kill(tmpNode->pid, 0) > -1){
+
+				strcpy(fileLocation, "/proc/");
+				sprintf(pidToFind, "%d", tmpNode->pid);
+				strcat(fileLocation, pidToFind );
+				strcat(fileLocation, "/stat" );
+
+				processesState = fopen(fileLocation, "r");
+
+				fscanf(processesState, "%s", pState);
+				fscanf(processesState, "%s", pState);
+				fscanf(processesState, "%s", pState);
+
+				if(strcmp(pState, "Z") == 0){
+					printf("%d %s - died\n", tmpNode->pid, tmpNode->usedCommand);
+					fflush(stdout);
+
+					deleteFromList(tmpNode->pid);
+				}
+
+				fclose(processesState);
+
+			}
+
+
+			tmpNode = tmpNode->next;
+
+
+		}
 
 }
 
