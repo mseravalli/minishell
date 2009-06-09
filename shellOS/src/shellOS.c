@@ -101,14 +101,14 @@ int main(int argc, char *argv[]) {
 		}*/
 
 
-		if (strcmp("kill",values[0]) == 0) {
+		if (strcmp("kill",values[0]) == 0 && values[1] != NULL) {
 			if(values[1] == NULL)
 				continue;
 			kill_background(atoi(values[1]));
 			continue;
 		}
 
-		if(strcmp("fg",values[0]) == 0){
+		if(strcmp("fg",values[0]) == 0 && values[1] != NULL){
 			printf("putting in foreground %d\n", atoi(values[1]));
 			fflush(stdout);
 			put_into_foreground(atoi(values[1]),statval);
