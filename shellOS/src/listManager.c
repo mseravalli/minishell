@@ -90,7 +90,7 @@ void updateList(){
 			deleteFromList(tmpNode->pid);
 
 		} else {
-/*
+
 			strcpy(fileLocation, "/proc/");
 			sprintf(pidToFind, "%d", tmpNode->pid);
 			strcat(fileLocation, pidToFind );
@@ -109,7 +109,7 @@ void updateList(){
 			}
 
 			fclose(processesState);
-*/
+
 		}
 
 		tmpNode = tmpNode->next;
