@@ -7,19 +7,22 @@ C_SRCS += \
 ../src/listManager.c \
 ../src/parser.c \
 ../src/processes.c \
-../src/shellOS.c 
+../src/shellOS.c \
+../src/signalHandlers.c 
 
 OBJS += \
 ./src/listManager.o \
 ./src/parser.o \
 ./src/processes.o \
-./src/shellOS.o 
+./src/shellOS.o \
+./src/signalHandlers.o 
 
 C_DEPS += \
 ./src/listManager.d \
 ./src/parser.d \
 ./src/processes.d \
-./src/shellOS.d 
+./src/shellOS.d \
+./src/signalHandlers.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
