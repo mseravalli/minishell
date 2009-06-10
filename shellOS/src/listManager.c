@@ -148,7 +148,8 @@ void notifyDeath(){
 
 
 			if(shellPID != tmpNode->pgid && kill(tmpNode->pid, 0) == -1){
-				printf("\nbackground process %d died\n", tmpNode->pid);
+				printf("\nbackground process %d died", tmpNode->pid);
+				printf("\nminishell:->");
 				fflush(stdout);
 
 				deleteFromList(tmpNode->pid);
@@ -168,7 +169,8 @@ void notifyDeath(){
 
 
 				if(strcmp(pState, "Z") == 0){
-					printf("\nbackground %d %s - died\n", tmpNode->pid, tmpNode->usedCommand);
+					printf("\nbackground %d %s - died", tmpNode->pid, tmpNode->usedCommand);
+					printf("\nminishell:->");
 					fflush(stdout);
 
 					deleteFromList(tmpNode->pid);
