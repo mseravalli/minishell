@@ -205,7 +205,3 @@ struct backgrNode * findProcess(int procID){
 
 	return NULL;
 }
-
-void deleteAllList(){
-
-}
