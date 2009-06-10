@@ -100,15 +100,27 @@ void run_background(char *cmd[], char *argv[], int statval, char *source, char *
 }
 
 
-void put_into_foreground(int pid){
+int put_into_foreground(int pid){
+
+
+
+	int group;
+
+	if(findProcess(pid) != NULL){
+		group = findProcess(pid)->pgid;
+	} else{
+		printf("the jobs was not in the list\n");
+		return -1;
+	}
 
 	kill(pid, SIGCONT);
 
-	int group = getpgid(pid);
+	//int group = getpgid(pid);
 
 
-	if(group != getpgid(shellPID)){
+	if(group != shellPID){
 
+		findProcess(pid)->pgid = shellPID;
 
 		setpgid(pid,shellPID);
 		tcsetpgrp(STDIN_FILENO,pid);
@@ -118,6 +130,8 @@ void put_into_foreground(int pid){
 
 
 	tcsetpgrp(STDIN_FILENO,shellPID);
+
+	return 0;
 
 }
 

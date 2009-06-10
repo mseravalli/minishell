@@ -189,4 +189,22 @@ void notifyDeath(){
 }
 
 
+struct backgrNode * findProcess(int procID){
 
+	struct backgrNode *tmpNode;
+	tmpNode = bckgrdList;
+
+
+	while(tmpNode != NULL){
+
+		if(tmpNode->pid == procID){
+			return tmpNode;
+		}
+
+		tmpNode = tmpNode->next;
+	}
+
+
+
+	return NULL;
+}
