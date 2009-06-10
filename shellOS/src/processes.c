@@ -12,6 +12,9 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *source, char *
 	pid_t childpid = fork();
 
 	if (childpid ==0) {
+
+		//signal(SIGTSTP, SIG_IGN);
+
 		if (strcmp(SHELL_LOCATION, destination) != 0){
 			fclose (stdout);
 			stdout = fopen(destination, "a");
