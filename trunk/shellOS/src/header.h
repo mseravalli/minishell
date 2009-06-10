@@ -48,7 +48,7 @@ void parseString(char *CmdBuf, char *argv[], int *size);
 void run_foreground(char *cmd[], char *argv[], int statval, char *source, char *destination);
 void run_background(char *cmd[], char *argv[], int statval, char *source, char *destination);
 int put_into_foreground(int pid);
-void kill_background(int pid);
+int kill_background(int pid);
 
 
 void addToList(int procID,int procGID, char cmd[], char inRes[], char outRes[]);
