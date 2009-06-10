@@ -36,6 +36,13 @@ void catch_chld(int sig_num){
 	signal(SIGCHLD, &catch_chld);
 }
 
+void catch_ttin(int sig_num){
+
+	printf("a background process is trying to read from the terminal\n");
+
+	signal(SIGTTIN, &catch_ttin);
+}
+
 
 int main(int argc, char *argv[]) {
 
@@ -44,8 +51,8 @@ int main(int argc, char *argv[]) {
 	signal(SIGINT, &catch_interrupt);
 	signal(SIGTSTP, &catch_stop);
 	signal(SIGCHLD, &catch_chld);
+	signal(SIGTTIN, &catch_ttin);
 	signal(SIGTTOU, SIG_IGN);
-	signal(SIGTTIN, SIG_IGN);
 
 	int statval = 1;
 	int statval2 = 1;
