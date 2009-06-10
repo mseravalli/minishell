@@ -50,8 +50,8 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-
-		parseString(&cmd, values, &size);
+		//parseString(&cmd, values, &size);
+		parseString(cmd, values, &size);
 
 
 		if (strcmp("exit",values[0]) == 0 || strcmp("quit",values[0]) == 0) {
@@ -64,13 +64,13 @@ int main(int argc, char *argv[]) {
 			continue;
 		}
 
-/*		if (strcmp("cd",values[0]) == 0) {
+		if (strcmp("cd",values[0]) == 0) {
 
 			if(chdir(values[1]) != 0){
 				printf("\nDirectory does not exist\n");
 			}
 			continue;
-		}*/
+		}
 
 
 		if (strcmp("kill",values[0]) == 0 && values[1] != NULL) {
