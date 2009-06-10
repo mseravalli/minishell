@@ -13,6 +13,7 @@ void catch_interrupt(int sig_num){
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - C is pressed the shell should simply go to the next line
      */
+	printf("\rminishell:->  ");
 	printf("\nminishell:->");
 	fflush(stdout);
 
@@ -24,6 +25,7 @@ void catch_stop(int sig_num){
      *  re-set the signal handler again to catch_int, for next time
      *  when Ctrl - Z is pressed the shell should simply go to the next line
      */
+	printf("\rminishell:->  ");
 	printf("\nminishell:->");
 	fflush(stdout);
 	signal(SIGTSTP, &catch_stop);
