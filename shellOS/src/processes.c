@@ -97,7 +97,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *source, char *
 }
 
 
-void put_into_foreground(int pid,int statval){
+void put_into_foreground(int pid){
 
 	kill(pid, SIGCONT);
 
@@ -117,6 +117,8 @@ void put_into_foreground(int pid,int statval){
 	tcsetpgrp(STDIN_FILENO,shellPID);
 
 }
+
+
 void kill_background(int pid){
 
 	kill(pid, SIGKILL);
