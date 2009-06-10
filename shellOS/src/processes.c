@@ -106,9 +106,10 @@ int put_into_foreground(int pid){
 
 	int group = getpgid(pid);
 
-	if(findProcess(pid) == NULL)
+	if(findProcess(pid) == NULL){
+		printf("process is not in the list\n");
 		return -1;
-
+	}
 
 	if(group != getpgid(shellPID)){
 
