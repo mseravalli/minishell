@@ -1,1 +1,21 @@
-something
+a thing
+total 268
+  4 drwxr-xr-x 4 marco marco   4096 2009-06-10 11:43 .
+  4 drwxr-xr-x 5 marco marco   4096 2009-06-08 23:06 ..
+  4 -rw-r--r-- 1 marco marco      8 2009-06-10 11:15 in.txt
+  4 -rw-r--r-- 1 marco marco    980 2009-06-10 11:49 makefile
+  4 -rw-r--r-- 1 marco marco    230 2009-06-09 22:14 objects.mk
+  4 -rw-r--r-- 1 marco marco      8 2009-06-10 11:15 out.txt
+  8 -rw-r--r-- 1 marco marco   4320 2009-06-08 23:06 .ps
+220 -rwxr-xr-x 1 marco marco 218038 2009-06-10 11:43 shellOS
+  4 -rw-r--r-- 1 marco marco    386 2009-06-10 11:49 sources.mk
+  4 drwxr-xr-x 3 marco marco   4096 2009-06-10 11:43 src
+  4 drwxr-xr-x 6 marco marco   4096 2009-06-10 11:47 .svn
+  4 -rw------- 1 marco marco   4096 2009-06-10 11:13 .swp
+in.txt
+makefile
+objects.mk
+out.txt
+shellOS
+sources.mk
+src
