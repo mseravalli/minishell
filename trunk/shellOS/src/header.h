@@ -38,6 +38,7 @@ struct backgrNode *bckgrdList;
 void catch_interrupt();
 void catch_stop();
 void catch_chld();
+void catch_ttin();
 
 void parseString();
 
