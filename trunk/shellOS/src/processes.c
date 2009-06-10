@@ -32,7 +32,7 @@ void run_foreground(char *cmd[], char *argv[], int statval, char *source, char *
 
 	if(childpid > 0){
 
-		addToList(childpid, cmd[0], source, destination);
+		addToList(childpid, shellPID, cmd[0], source, destination);
 
 		setpgid(childpid,shellPID);
 
@@ -62,7 +62,7 @@ void run_background(char *cmd[], char *argv[], int statval, char *source, char *
 
 	if (childpid > 0){
 
-		addToList(childpid, cmd[0], source, destination);
+		addToList(childpid, childpid, cmd[0], source, destination);
 	}
 
 
@@ -120,7 +120,7 @@ void put_into_foreground(int pid,int statval){
 void kill_background(int pid){
 
 	kill(pid, SIGKILL);
-	//deleteFromList(pid);
+
 }
 
 

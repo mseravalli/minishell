@@ -32,7 +32,7 @@ void catch_stop(int sig_num){
 }
 
 void catch_chld(int sig_num){
-
+	notifyDeath();
 	signal(SIGCHLD, &catch_chld);
 }
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 		statval2 = 1;
 		statval = 1;
 
-		notifyDeath();
+		//notifyDeath();
 
 		printf("minishell:->");
 		fflush(stdout);
