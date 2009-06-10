@@ -106,9 +106,13 @@ int put_into_foreground(int pid){
 
 	int group = getpgid(pid);
 
+	if(findProcess(pid) == NULL)
+		return -1;
+
 
 	if(group != getpgid(shellPID)){
 
+		findProcess(pid)->pgid = shellPID;
 
 		setpgid(pid,shellPID);
 		tcsetpgrp(STDIN_FILENO,pid);
