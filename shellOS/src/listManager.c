@@ -8,14 +8,14 @@
 #include "header.h"
 
 
-void addToList(int procID, char cmd[], char inRes[], char outRes[]){
+void addToList(int procID,int procGID, char cmd[], char inRes[], char outRes[]){
 
 
 	struct backgrNode *tmpNode;
 	tmpNode = malloc(sizeof(struct backgrNode));
 
 	tmpNode->pid = procID;
-	tmpNode->pgid = getpgid(tmpNode->pid);
+	tmpNode->pgid = procGID;
 
 	strcpy( tmpNode->usedCommand, cmd );
 
@@ -144,9 +144,11 @@ void notifyDeath(){
 
 		while(tmpNode != NULL){
 
+			//printf("stato %d - %d\n", tmpNode->pid, tmpNode->pgid);
+
 
 			if(shellPID != tmpNode->pgid && kill(tmpNode->pid, 0) == -1){
-				printf("background process %d died\n", tmpNode->pid);
+				printf("\nbackground process %d died\n", tmpNode->pid);
 				fflush(stdout);
 
 				deleteFromList(tmpNode->pid);
@@ -164,8 +166,9 @@ void notifyDeath(){
 				fscanf(processesState, "%s", pState);
 				fscanf(processesState, "%s", pState);
 
+
 				if(strcmp(pState, "Z") == 0){
-					printf("%d %s - died\n", tmpNode->pid, tmpNode->usedCommand);
+					printf("\nbackground %d %s - died\n", tmpNode->pid, tmpNode->usedCommand);
 					fflush(stdout);
 
 					deleteFromList(tmpNode->pid);
