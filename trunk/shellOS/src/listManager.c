@@ -39,6 +39,7 @@ void deleteFromList(int procID){
 	if(bckgrdList != NULL){
 		//if it is the first element
 		if(bckgrdList->pid == procID){
+
 			bckgrdList = bckgrdList->next;
 		}
 
@@ -50,10 +51,8 @@ void deleteFromList(int procID){
 		if(tmpNode->next != NULL){
 
 			if(tmpNode->next->pid == procID){
-					tmpNode->next = tmpNode->next->next;
+				tmpNode->next = tmpNode->next->next;
 			}
-
-
 
 		}
 
@@ -76,11 +75,12 @@ void updateList(){
 	while(tmpNode != NULL){
 
 
+
 		//printf("%d - %d\n", tmpNode->pid, kill(tmpNode->pid, 0));
 		if(kill(tmpNode->pid, 0) == -1){
 			deleteFromList(tmpNode->pid);
-		} else {
 
+		} else {
 			strcpy(fileLocation, "/proc/");
 			sprintf(pidToFind, "%d", tmpNode->pid);
 			strcat(fileLocation, pidToFind );
@@ -99,12 +99,9 @@ void updateList(){
 			}
 
 			fclose(processesState);
-
 		}
 
-
 		tmpNode = tmpNode->next;
-
 
 	}
 
@@ -116,8 +113,8 @@ void printList(){
 	updateList();
 
 	struct backgrNode *tmpNode;
-	tmpNode = bckgrdList;
 
+	tmpNode = bckgrdList;
 
 	while(tmpNode != NULL){
 
@@ -207,4 +204,8 @@ struct backgrNode * findProcess(int procID){
 
 
 	return NULL;
+}
+
+void deleteAllList(){
+
 }
