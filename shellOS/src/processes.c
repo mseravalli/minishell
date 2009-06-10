@@ -136,9 +136,17 @@ int put_into_foreground(int pid){
 }
 
 
-void kill_background(int pid){
+int kill_background(int pid){
 
-	kill(pid, SIGKILL);
+	if(findProcess(pid) != NULL){
+
+		kill(pid, SIGKILL);
+
+		return 0;
+	} else{
+		printf("the jobs was not in the list\n");
+		return -1;
+	}
 
 }
 
